@@ -1,0 +1,16 @@
+node_modules/
+.env
+npm-debug.log*
+.jwt-secret
+
+# Ảnh người dùng tải lên: không đưa lên Git. Chỉ giữ vài ảnh mẫu / banner do chính chủ sở hữu.
+uploads/*
+!uploads/1789292862629-134554614.jpg
+!uploads/1789292864980-923735277.jpg
+!uploads/default.jpg
+!uploads/banner.png
+!uploads/banner-header.png
+uploads/.thumbs/
+
+# Ảnh chat riêng tư (không bao giờ được public)
+private-uploads/

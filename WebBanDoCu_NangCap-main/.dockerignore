@@ -1,0 +1,6 @@
+node_modules
+.env
+.git
+.jwt-secret
+private-uploads
+uploads/.thumbs

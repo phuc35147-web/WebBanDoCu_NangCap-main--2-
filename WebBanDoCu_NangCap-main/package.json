@@ -1,0 +1,42 @@
+{
+  "name": "web-do-cu-3-layer",
+  "version": "1.0.0",
+  "description": "Website bán đồ cũ kiến trúc 3 lớp với Node.js, Express và SQL Server",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "lint": "eslint server.js src",
+    "format": "prettier --write server.js eslint.config.js \"src/**/*.js\"",
+    "format:check": "prettier --check server.js eslint.config.js \"src/**/*.js\"",
+    "migrate": "node scripts/migrate.js",
+    "test": "node --test",
+    "prepare:sri": "node scripts/add-sri.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "mssql": "^10.0.5",
+    "multer": "^2.0.2",
+    "nodemailer": "^10.0.14"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.12.0",
+    "globals": "^17.13.0",
+    "nodemon": "^3.0.2",
+    "prettier": "^3.3.3"
+  },
+  "optionalDependencies": {
+    "sharp": "^0.34.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

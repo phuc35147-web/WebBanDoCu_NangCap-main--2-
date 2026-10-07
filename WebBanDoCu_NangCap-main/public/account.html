@@ -1,0 +1,1682 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Tài khoản - CHỢ ĐỒ CŨ</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"
+    >
+
+    <!-- CSS CHUNG -->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- CSS RIÊNG TRANG TÀI KHOẢN -->
+    <link rel="stylesheet" href="/css/account.css">
+</head>
+
+<body>
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+<header class="account-header">
+
+    <div class="account-header-inner">
+
+        <!-- Logo -->
+        <a href="/" class="account-logo">
+            <span class="logo-icon">
+                <i class="bi bi-recycle"></i>
+            </span>
+
+            <span>CHỢ ĐỒ CŨ</span>
+        </a>
+
+        <!-- Menu bên phải -->
+        <div class="header-actions">
+
+            <a href="/" class="header-home">
+                <i class="bi bi-house"></i>
+                Trang chủ
+            </a>
+
+            <button
+                type="button"
+                class="header-post-btn"
+                onclick="goPost()"
+            >
+                <i class="bi bi-plus-lg"></i>
+                Đăng tin
+            </button>
+
+            <button
+                type="button"
+                class="header-avatar"
+                id="headerAvatar"
+            >
+                P
+            </button>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+<main class="account-page">
+
+    <!-- Loading -->
+    <div id="accountLoading" class="account-loading">
+
+        <div class="spinner-border text-primary"></div>
+
+        <p>Đang tải thông tin tài khoản...</p>
+
+    </div>
+
+
+    <!-- Error -->
+    <div
+        id="accountError"
+        class="account-error d-none"
+    >
+        <i class="bi bi-exclamation-circle"></i>
+
+        <span id="accountErrorText">
+            Không thể tải thông tin tài khoản.
+        </span>
+
+    </div>
+
+
+    <!-- =====================================================
+         ACCOUNT CONTENT
+    ====================================================== -->
+    <div
+        id="accountContent"
+        class="d-none"
+    >
+
+        <!-- Breadcrumb -->
+        <div class="account-breadcrumb">
+
+            <a href="/">
+                Chợ đồ cũ
+            </a>
+
+            <i class="bi bi-chevron-right"></i>
+
+            <span>Tài khoản</span>
+
+        </div>
+
+
+        <!-- =================================================
+             PROFILE HERO
+        ================================================== -->
+        <section class="profile-hero">
+
+            <div class="profile-main">
+
+                <!-- Avatar -->
+                <div
+                    class="profile-avatar"
+                    id="profileAvatar"
+                >
+                    P
+                </div>
+
+                <!-- User information -->
+                <div class="profile-basic">
+
+                    <h1 id="profileName">
+                        Người dùng
+                    </h1>
+
+                    <div class="profile-email">
+
+                        <i class="bi bi-envelope"></i>
+
+                        <span id="profileEmail">
+                            email@example.com
+                        </span>
+
+                    </div>
+
+                    <div class="profile-status">
+
+                        <span class="online-dot"></span>
+
+                        Đang hoạt động
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Profile actions -->
+            <div class="profile-actions">
+
+                <button
+                    type="button"
+                    class="profile-edit-btn"
+                    onclick="editProfile()"
+                >
+                    <i class="bi bi-pencil"></i>
+                    Chỉnh sửa hồ sơ
+                </button>
+
+                <button
+                    type="button"
+                    class="profile-edit-btn"
+                    data-bs-toggle="modal"
+                    data-bs-target="#changePasswordModal"
+                >
+                    <i class="bi bi-shield-lock"></i>
+                    Đổi mật khẩu
+                </button>
+
+                <button
+                    type="button"
+                    class="profile-logout-btn"
+                    onclick="logout()"
+                >
+                    <i class="bi bi-box-arrow-right"></i>
+                    Đăng xuất
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             QUICK STATISTICS
+        ================================================== -->
+        <section class="account-stats">
+
+            <div class="stat-card">
+
+                <div class="stat-icon blue">
+                    <i class="bi bi-megaphone"></i>
+                </div>
+
+                <div>
+                    <strong id="listingCount">0</strong>
+                    <span>Tin đã đăng</span>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon purple">
+                    <i class="bi bi-chat-dots"></i>
+                </div>
+
+                <div>
+                    <strong id="messageCount">0</strong>
+                    <span>Cuộc trò chuyện</span>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon green">
+                    <i class="bi bi-person-check"></i>
+                </div>
+
+                <div>
+                    <strong id="accountStatus">
+                        Hoạt động
+                    </strong>
+
+                    <span>Trạng thái tài khoản</span>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon orange">
+                    <i class="bi bi-calendar3"></i>
+                </div>
+
+                <div>
+
+                    <strong id="joinDate">
+                        --
+                    </strong>
+
+                    <span>Ngày tham gia</span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             TWO COLUMNS
+        ================================================== -->
+        <div class="account-grid">
+
+
+            <!-- =================================================
+                 LEFT
+            ================================================== -->
+            <div class="account-left">
+
+
+                <!-- Thông tin cá nhân -->
+                <section class="account-box">
+
+                    <div class="box-header">
+
+                        <div>
+                            <span class="box-icon">
+                                <i class="bi bi-person"></i>
+                            </span>
+
+                            <div>
+                                <h2>Thông tin cá nhân</h2>
+
+                                <p>
+                                    Thông tin dùng để liên hệ giữa các thành viên
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="information-list">
+
+                        <div class="information-item">
+
+                            <div class="information-label">
+                                <i class="bi bi-person"></i>
+                                Họ và tên
+                            </div>
+
+                            <strong id="infoName">
+                                --
+                            </strong>
+
+                        </div>
+
+
+                        <div class="information-item">
+
+                            <div class="information-label">
+                                <i class="bi bi-telephone"></i>
+                                Số điện thoại
+                            </div>
+
+                            <strong id="infoPhone">--</strong>
+                            <button id="revealPhoneButton" class="btn btn-sm btn-link p-0 ms-2" type="button"
+                                    aria-label="Hiện số điện thoại" onclick="togglePhoneVisibility()">Bấm để hiện</button>
+
+                        </div>
+
+
+                        <div class="information-item">
+
+                            <div class="information-label">
+                                <i class="bi bi-envelope"></i>
+                                Email
+                            </div>
+
+                            <strong id="infoEmail">
+                                --
+                            </strong>
+
+                        </div>
+
+
+                        <div class="information-item">
+
+                            <div class="information-label">
+                                <i class="bi bi-person-badge"></i>
+                                Vai trò
+                            </div>
+
+                            <strong id="infoRole">
+                                Người dùng
+                            </strong>
+
+                        </div>
+
+
+                        <div class="information-item full">
+
+                            <div class="information-label">
+                                <i class="bi bi-geo-alt"></i>
+                                Khu vực
+                            </div>
+
+                            <strong id="infoAddress">
+                                Chưa cập nhật
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     TIN ĐÃ ĐĂNG
+                ================================================== -->
+                <section class="account-box">
+
+                    <div class="box-header listing-header">
+
+                        <div>
+
+                            <span class="box-icon">
+                                <i class="bi bi-grid"></i>
+                            </span>
+
+                            <div>
+
+                                <h2>Tin đăng của tôi</h2>
+
+                                <p>
+                                    Quản lý những món đồ bạn đang rao bán
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            class="small-action"
+                            onclick="goPost()"
+                        >
+                            <i class="bi bi-plus-lg"></i>
+                            Đăng tin
+                        </button>
+
+                    </div>
+
+
+                    <div id="myListings" class="listing-area">
+
+                        <!-- Javascript render -->
+
+                    </div>
+
+                </section>
+
+
+            </div>
+
+
+            <!-- =================================================
+                 RIGHT
+            ================================================== -->
+            <aside class="account-right">
+
+
+                <!-- Liên hệ -->
+                <section class="contact-box">
+
+                    <div class="contact-icon">
+                        <i class="bi bi-chat-square-text"></i>
+                    </div>
+
+                    <h2>
+                        Trao đổi trực tiếp
+                    </h2>
+
+                    <p>
+                        CHỢ ĐỒ CŨ không trực tiếp mua bán hàng hóa.
+                        Chúng tôi giúp người mua và người bán kết nối,
+                        trao đổi thông tin và tự thỏa thuận với nhau.
+                    </p>
+
+                    <button
+                        type="button"
+                        class="contact-btn"
+                        onclick="openMessages()"
+                    >
+                        <i class="bi bi-chat-dots"></i>
+                        Xem tin nhắn
+                    </button>
+
+                </section>
+
+
+                <!-- Hướng dẫn -->
+                <section class="guide-box">
+
+                    <h2>
+                        <i class="bi bi-lightbulb"></i>
+                        Lưu ý khi giao dịch
+                    </h2>
+
+                    <div class="guide-item">
+
+                        <span>01</span>
+
+                        <p>
+                            Trao đổi kỹ thông tin sản phẩm với người đăng tin.
+                        </p>
+
+                    </div>
+
+
+                    <div class="guide-item">
+
+                        <span>02</span>
+
+                        <p>
+                            Kiểm tra tình trạng sản phẩm trước khi giao dịch.
+                        </p>
+
+                    </div>
+
+
+                    <div class="guide-item">
+
+                        <span>03</span>
+
+                        <p>
+                            Hai bên tự thống nhất giá và phương thức giao nhận.
+                        </p>
+
+                    </div>
+
+
+                    <div class="guide-item">
+
+                        <span>04</span>
+
+                        <p>
+                            Không cung cấp mật khẩu hoặc mã OTP cho người khác.
+                        </p>
+
+                    </div>
+
+                </section>
+
+
+                <!-- Nút đăng tin -->
+                <section class="post-card">
+
+                    <div class="post-card-icon">
+                        <i class="bi bi-megaphone"></i>
+                    </div>
+
+                    <h3>
+                        Bạn có món đồ muốn bán?
+                    </h3>
+
+                    <p>
+                        Tạo tin đăng và kết nối với những người đang quan tâm.
+                    </p>
+
+                    <button
+                        type="button"
+                        onclick="goPost()"
+                    >
+                        Đăng tin ngay
+                        <i class="bi bi-arrow-right"></i>
+                    </button>
+
+                </section>
+
+
+            </aside>
+
+        </div>
+
+
+        <!-- =================================================
+             MESSAGES
+        ================================================== -->
+        <section class="account-box message-section">
+
+            <div class="box-header">
+
+                <div>
+
+                    <span class="box-icon message">
+                        <i class="bi bi-chat-left-text"></i>
+                    </span>
+
+                    <div>
+
+                        <h2>
+                            Kết nối & trao đổi
+                        </h2>
+
+                        <p>
+                            Khu vực liên hệ giữa người mua và người bán
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="message-placeholder">
+
+                <div class="message-placeholder-icon">
+                    <i class="bi bi-chat-dots"></i>
+                </div>
+
+                <h3>
+                    Bạn chưa có cuộc trò chuyện
+                </h3>
+
+                <p>
+                    Khi bạn quan tâm đến một tin đăng,
+                    hãy sử dụng chức năng nhắn tin để trao đổi với người đăng.
+                </p>
+
+                <a href="/" class="message-home-btn">
+                    <i class="bi bi-search"></i>
+                    Tìm tin đăng
+                </a>
+
+            </div>
+
+        </section>
+
+
+    </div>
+
+</main>
+
+
+<!-- =========================================================
+     EDIT PROFILE MODAL
+========================================================= -->
+<div
+    class="modal fade"
+    id="editProfileModal"
+    tabindex="-1"
+    aria-hidden="true"
+>
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content profile-modal">
+
+            <div class="modal-header">
+
+                <div>
+                    <h5 class="modal-title">
+                        Chỉnh sửa hồ sơ
+                    </h5>
+
+                    <p>
+                        Cập nhật thông tin tài khoản
+                    </p>
+                </div>
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                ></button>
+
+            </div>
+
+
+            <div class="modal-body">
+
+                <div class="edit-form-group">
+
+                    <label>
+                        Họ và tên
+                    </label>
+
+                    <input
+                        type="text"
+                        id="editName"
+                        class="form-control"
+                    >
+
+                </div>
+
+
+                <div class="edit-form-group">
+
+                    <label>
+                        Số điện thoại
+                    </label>
+
+                    <input
+                        type="text"
+                        id="editPhone"
+                        class="form-control"
+                    >
+
+                </div>
+
+
+                <div class="edit-form-group">
+
+                    <label>
+                        Địa chỉ
+                    </label>
+
+                    <textarea
+                        id="editAddress"
+                        class="form-control"
+                        rows="3"
+                    ></textarea>
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="btn btn-light"
+                    data-bs-dismiss="modal"
+                >
+                    Hủy
+                </button>
+
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    onclick="saveProfile()"
+                >
+                    <i class="bi bi-check-lg"></i>
+                    Lưu thay đổi
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="modal fade" id="soldModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header"><h5 class="modal-title">Chốt giao dịch &quot;Đã bán&quot;</h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button></div>
+    <div class="modal-body">
+      <p class="small text-muted">Chọn người đã mua hàng của bạn. Chỉ người này mới có thể đánh giá bạn, giúp tránh đánh giá ảo. Tin sẽ không còn hiển thị để người khác mua.</p>
+      <div id="soldBuyerList" class="list-group"></div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-light" data-bs-dismiss="modal">Hủy</button><button id="soldConfirmBtn" class="btn btn-warning fw-semibold">Xác nhận đã bán</button></div>
+  </div></div>
+</div>
+<div class="modal fade" id="changePasswordModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content profile-modal">
+            <div class="modal-header">
+                <div>
+                    <h5 class="modal-title">Đổi mật khẩu</h5>
+                    <p>Dùng mật khẩu mới để bảo vệ tài khoản của bạn.</p>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+            </div>
+            <form id="changePasswordForm">
+                <div class="modal-body">
+                    <div class="edit-form-group">
+                        <label for="currentPassword">Mật khẩu hiện tại</label>
+                        <input id="currentPassword" class="form-control" type="password" required autocomplete="current-password">
+                    </div>
+                    <div class="edit-form-group">
+                        <label for="newPassword">Mật khẩu mới</label>
+                        <input id="newPassword" class="form-control" type="password" minlength="8" maxlength="72" required autocomplete="new-password">
+                    </div>
+                    <div class="edit-form-group">
+                        <label for="confirmNewPassword">Nhập lại mật khẩu mới</label>
+                        <input id="confirmNewPassword" class="form-control" type="password" minlength="8" maxlength="72" required autocomplete="new-password">
+                    </div>
+                    <div id="changePasswordMessage" class="alert d-none mb-0" role="status"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Cập nhật mật khẩu</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- Bootstrap JS -->
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+<script>
+
+/* =========================================================
+   BIẾN
+========================================================= */
+
+const token = localStorage.getItem('token');
+
+let currentUser = null;
+let currentPhone = '';
+let phoneVisible = false;
+
+
+/* =========================================================
+   HÀM AN TOÀN
+========================================================= */
+
+function safe(value, fallback = 'Chưa cập nhật') {
+
+    if (
+        value === null ||
+        value === undefined ||
+        String(value).trim() === ''
+    ) {
+        return fallback;
+    }
+
+    return String(value);
+
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHtml(value) {
+
+    return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+
+}
+
+
+/* =========================================================
+   CHỮ CÁI AVATAR
+========================================================= */
+
+function getAvatarLetter(name) {
+
+    const text = String(name || 'P').trim();
+
+    if (!text) return 'P';
+
+    return text.charAt(0).toUpperCase();
+
+}
+
+
+/* =========================================================
+   ĐĂNG XUẤT
+========================================================= */
+
+function logout() {
+
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+
+    window.location.href = '/';
+
+}
+
+
+/* =========================================================
+   ĐI ĐĂNG TIN
+========================================================= */
+
+function goPost() {
+    window.location.href = '/?post=1';
+}
+
+/* =========================================================
+   MỞ TIN NHẮN
+========================================================= */
+
+function openMessages() {
+
+    /*
+        Nếu sau này bạn có messages.html,
+        chỉ cần đổi thành:
+
+        window.location.href = '/messages.html';
+    */
+
+    window.location.href = '/messages.html';
+
+}
+
+
+/* =========================================================
+   CHỈNH SỬA HỒ SƠ
+========================================================= */
+
+function editProfile() {
+
+    if (!currentUser) return;
+
+    const p = currentUser;
+
+    document.getElementById('editName').value =
+        p.HoTen || '';
+
+    document.getElementById('editPhone').value =
+        p.SoDienThoai || '';
+
+    document.getElementById('editAddress').value =
+        p.DiaChiDayDu ||
+        p.DiaChiChiTiet ||
+        '';
+
+    const modal =
+        bootstrap.Modal.getOrCreateInstance(
+            document.getElementById('editProfileModal')
+        );
+
+    modal.show();
+
+}
+
+
+/* =========================================================
+   LƯU HỒ SƠ
+========================================================= */
+
+async function saveProfile() {
+
+    const name =
+        document.getElementById('editName').value.trim();
+
+    const phone =
+        document.getElementById('editPhone').value.trim();
+
+    const address =
+        document.getElementById('editAddress').value.trim();
+
+    if (!name) {
+
+        alert('Vui lòng nhập họ và tên.');
+
+        return;
+
+    }
+
+    /*
+        API cập nhật tài khoản chưa được giả định.
+        Nếu backend của bạn đã có API PUT /api/account
+        thì đoạn này có thể sử dụng trực tiếp.
+    */
+
+    try {
+
+        const response = await fetch('/api/account', {
+
+            method: 'PUT',
+
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+
+            body: JSON.stringify({
+
+                hoTen: name,
+
+                soDienThoai: phone,
+
+                diaChiChiTiet: address
+
+            })
+
+        });
+
+
+        const data = await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                'Không thể cập nhật thông tin.'
+            );
+
+        }
+
+
+        alert('Cập nhật thông tin thành công.');
+
+        bootstrap.Modal
+            .getInstance(
+                document.getElementById('editProfileModal')
+            )
+            .hide();
+
+        loadAccount();
+
+
+    } catch (error) {
+
+        /*
+            Nếu backend hiện tại chưa có PUT /api/account,
+            không làm hỏng giao diện.
+        */
+
+        alert(
+            error.message ||
+            'Backend chưa hỗ trợ cập nhật tài khoản.'
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   RENDER TIN ĐĂNG
+========================================================= */
+
+function renderListings(products) {
+
+    const container =
+        document.getElementById('myListings');
+
+    if (!products || !products.length) {
+
+        container.innerHTML = `
+
+            <div class="empty-listings">
+
+                <div class="empty-listings-icon">
+                    <i class="bi bi-box-seam"></i>
+                </div>
+
+                <h3>
+                    Bạn chưa có tin đăng
+                </h3>
+
+                <p>
+                    Hãy đăng một món đồ để kết nối với người mua.
+                </p>
+
+                <button
+                    type="button"
+                    onclick="goPost()"
+                >
+                    <i class="bi bi-plus-lg"></i>
+                    Đăng tin đầu tiên
+                </button>
+
+            </div>
+
+        `;
+
+        document.getElementById('listingCount').textContent = '0';
+
+        return;
+
+    }
+
+
+    document.getElementById('listingCount').textContent =
+        products.length;
+
+
+    container.innerHTML = products
+        .slice(0, 6)
+        .map(product => {
+
+            const image =
+                product.HinhAnh ||
+                product.hinhAnh ||
+                '/uploads/default.jpg';
+
+            const name =
+                product.TenSanPham ||
+                product.tenSanPham ||
+                'Sản phẩm';
+
+            const price =
+                product.GiaBan ||
+                product.giaBan ||
+                0;
+
+            const id =
+                product.MaSanPham ||
+                product.maSanPham ||
+                product.id ||
+                '';
+            const status = product.TrangThai || 'Chưa xác định';
+            const rejectionReason = product.LyDoTuChoi || '';
+
+
+            return `
+
+                <div class="listing-card">
+
+                    <div class="listing-image">
+
+                        <img
+                            src="${escapeHtml(image)}"
+                            alt="${escapeHtml(name)}"
+                            onerror="this.src='/uploads/default.jpg'"
+                        >
+
+                    </div>
+
+
+                    <div class="listing-info">
+
+                        <h3>
+                            ${escapeHtml(name)}
+                        </h3>
+
+                        <strong>
+                            ${Number(price).toLocaleString('vi-VN')} đ
+                        </strong>
+
+                        <span>
+                            <i class="bi bi-eye"></i>
+                            ${escapeHtml(status)}
+                        </span>
+                        ${rejectionReason ? `<small class="text-danger mt-1">Lý do từ chối: ${escapeHtml(rejectionReason)}</small>` : ''}
+
+                    </div>
+
+
+                    <div class="listing-actions d-flex gap-2">
+                        <a href="/product-detail.html?id=${encodeURIComponent(id)}" class="listing-view" title="Xem tin"><i class="bi bi-arrow-up-right"></i></a>
+                        ${status === 'Đang bán' ? `<button type="button" class="btn btn-sm btn-outline-success" onclick="markListingSold(${Number(id)})" title="Đánh dấu đã bán"><i class="bi bi-check2-circle"></i></button><button type="button" class="btn btn-sm btn-outline-secondary" onclick="bumpListing(${Number(id)})" title="Đẩy tin lên đầu"><i class="bi bi-arrow-up-circle"></i></button>` : ''}
+                        <button type="button" class="btn btn-sm btn-outline-primary" onclick="editListing(${Number(id)})" title="Sửa tin"><i class="bi bi-pencil"></i></button>
+                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="deleteListing(${Number(id)})" title="Xóa tin"><i class="bi bi-trash"></i></button>
+                    </div>
+
+                </div>
+
+            `;
+
+        })
+        .join('');
+
+}
+
+
+async function markListingSold(id) {
+    // Lấy danh sách người đã nhắn tin về tin này để chọn "người mua" (chỉ người này mới đánh giá được người bán)
+    let candidates = [];
+    try {
+        const r = await fetch(`/api/products/${id}/buyers`, { headers: { Authorization: `Bearer ${token}` } });
+        if (r.ok) candidates = await r.json();
+    } catch (_) {}
+    const modalEl = document.getElementById('soldModal');
+    const list = document.getElementById('soldBuyerList');
+    const esc = (v) => String(v ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+    list.innerHTML = candidates.map((c, i) => `
+        <label class="list-group-item d-flex align-items-center gap-2">
+            <input class="form-check-input mt-0" type="radio" name="soldBuyer" value="${Number(c.MaNguoiDung)}" ${i === 0 ? 'checked' : ''}>
+            <span class="fw-semibold">${esc(c.HoTen)}</span>
+            <small class="text-muted ms-auto">nhắn gần nhất ${new Date(c.LanCuoi).toLocaleDateString('vi-VN')}</small>
+        </label>`).join('') + `
+        <label class="list-group-item d-flex align-items-center gap-2">
+            <input class="form-check-input mt-0" type="radio" name="soldBuyer" value="" ${candidates.length ? '' : 'checked'}>
+            <span>Bán ngoài nền tảng / không có trong danh sách</span>
+        </label>`;
+    const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+    document.getElementById('soldConfirmBtn').onclick = async () => {
+        const chosen = document.querySelector('input[name="soldBuyer"]:checked');
+        const buyerId = chosen && chosen.value ? Number(chosen.value) : null;
+        try {
+            const r = await fetch(`/api/products/${id}/sold`, {
+                method: 'PATCH',
+                headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+                body: JSON.stringify({ buyerId }),
+            });
+            const data = await r.json();
+            if (!r.ok) throw new Error(data.message || 'Không thể cập nhật tin.');
+            modal.hide();
+            alert(data.message || 'Đã cập nhật.');
+            loadAccount();
+        } catch (e) { alert(e.message); }
+    };
+    modal.show();
+}
+
+async function bumpListing(id) {
+    try {
+        const r=await fetch(`/api/products/${id}/bump`,{method:'PATCH',headers:{Authorization:`Bearer ${token}`} });
+        const data=await r.json(); if(!r.ok) throw new Error(data.message||'Không thể đẩy tin.');
+        alert(data.message||'Đã đẩy tin.'); loadAccount();
+    } catch(e){alert(e.message);}
+}
+
+async function deleteListing(id) {
+    if (!confirm('Bạn có chắc muốn xóa tin đăng này?')) return;
+    try {
+        const r=await fetch(`/api/products/${id}`,{method:'DELETE',headers:{Authorization:`Bearer ${token}`} });
+        const data=await r.json(); if(!r.ok) throw new Error(data.message||'Không thể xóa tin.');
+        alert(data.message||'Đã xóa tin.');
+        loadAccount();
+    } catch(e){alert(e.message);}
+}
+
+async function editListing(id) {
+    try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = '/auth.html?mode=login';
+            return;
+        }
+
+        const r = await fetch(`/api/products/${id}`, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        const p = await r.json();
+        if (!r.ok) throw new Error(p.message || 'Không tải được tin.');
+        localStorage.setItem('editingProduct', JSON.stringify(p));
+        window.location.href = '/?editProduct=1';
+    } catch (e) {
+        alert(e.message);
+    }
+}
+
+/* =========================================================
+   LOAD ACCOUNT
+========================================================= */
+
+async function loadAccount() {
+
+    /*
+        Chưa đăng nhập
+    */
+
+    if (!token) {
+
+        window.location.href = '/auth.html?mode=login';
+
+        return;
+
+    }
+
+
+    try {
+
+        const response = await fetch(
+            '/api/account',
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        );
+
+
+        const data = await response.json();
+
+
+        if (!response.ok) {
+            if (response.status === 401 || response.status === 403 || /không tìm thấy tài khoản/i.test(data.message || '')) {
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                window.location.replace('/auth.html?mode=login');
+                return;
+            }
+            throw new Error(data.message || 'Không thể tải thông tin tài khoản.');
+        }
+
+
+        /* Trang tài khoản chỉ cần hồ sơ và tải danh sách tin riêng. */
+
+        currentUser = data.profile || data.user || data;
+
+
+        renderAccount(currentUser);
+
+
+        /*
+            Nếu API account có danh sách tin đăng
+        */
+
+        if (Array.isArray(data.listings)) {
+
+            renderListings(data.listings);
+
+        }
+
+        else if (Array.isArray(data.products)) {
+
+            renderListings(data.products);
+
+        }
+
+        else {
+            try {
+                const lr = await fetch('/api/account/listings', {headers:{'Authorization':`Bearer ${token}`}});
+                const listings = await lr.json();
+                if (!lr.ok) throw new Error(listings.message || 'Không thể tải tin đăng.');
+                renderListings(Array.isArray(listings) ? listings : []);
+            } catch (listingError) {
+                console.error(listingError);
+                renderListings([]);
+            }
+        }
+
+
+        /*
+            Số cuộc trò chuyện.
+            Nếu backend có messageCount thì dùng.
+        */
+
+        document.getElementById('messageCount').textContent =
+            data.messageCount ||
+            data.messagesCount ||
+            0;
+
+
+        /*
+            Hiển thị giao diện
+        */
+
+        document.getElementById(
+            'accountLoading'
+        ).classList.add('d-none');
+
+
+        document.getElementById(
+            'accountContent'
+        ).classList.remove('d-none');
+
+
+    } catch (error) {
+
+        console.error(error);
+
+
+        document.getElementById(
+            'accountLoading'
+        ).classList.add('d-none');
+
+
+        document.getElementById(
+            'accountError'
+        ).classList.remove('d-none');
+
+
+        document.getElementById(
+            'accountErrorText'
+        ).textContent =
+            error.message ||
+            'Không thể tải tài khoản.';
+
+    }
+
+}
+
+
+/* =========================================================
+   RENDER ACCOUNT INFORMATION
+========================================================= */
+
+function renderAccount(p) {
+
+    const name =
+        p.HoTen ||
+        p.hoTen ||
+        'Người dùng';
+
+
+    const email =
+        p.Email ||
+        p.email ||
+        '';
+
+
+    const phone =
+        p.SoDienThoai ||
+        p.soDienThoai ||
+        '';
+
+
+    const role =
+        p.VaiTro ||
+        p.vaiTro ||
+        'Người dùng';
+
+
+    const address =
+        p.DiaChiDayDu ||
+
+        [
+            p.DiaChiChiTiet,
+            p.PhuongXa,
+            p.QuanHuyen,
+            p.TinhThanh
+        ]
+        .filter(Boolean)
+        .join(', ');
+
+
+    /*
+        Hero
+    */
+
+    document.getElementById(
+        'profileName'
+    ).textContent = name;
+
+
+    document.getElementById(
+        'profileEmail'
+    ).textContent = safe(email);
+
+
+    /*
+        Avatar
+    */
+
+    const letter =
+        getAvatarLetter(name);
+
+
+    document.getElementById(
+        'profileAvatar'
+    ).textContent = letter;
+
+
+    document.getElementById(
+        'headerAvatar'
+    ).textContent = letter;
+
+
+    /*
+        Information
+    */
+
+    document.getElementById(
+        'infoName'
+    ).textContent =
+        safe(name);
+
+
+    currentPhone = String(phone || '');
+    phoneVisible = false;
+    document.getElementById('infoPhone').textContent =
+        currentPhone ? (currentPhone.length > 6 ? `${currentPhone.slice(0, 3)}••••${currentPhone.slice(-3)}` : '••••••') : 'Chưa cập nhật';
+    document.getElementById('revealPhoneButton').hidden = !currentPhone;
+    document.getElementById('revealPhoneButton').textContent = 'Bấm để hiện';
+    document.getElementById('revealPhoneButton').setAttribute('aria-label', 'Hiện số điện thoại');
+
+
+    document.getElementById(
+        'infoEmail'
+    ).textContent =
+        safe(email);
+
+
+    document.getElementById(
+        'infoRole'
+    ).textContent =
+        formatRole(role);
+
+
+    document.getElementById(
+        'infoAddress'
+    ).textContent =
+        safe(address);
+
+
+    /*
+        Status
+    */
+
+    document.getElementById(
+        'accountStatus'
+    ).textContent =
+        formatStatus(
+            p.TrangThai ||
+            p.trangThai ||
+            true
+        );
+
+
+    /*
+        Ngày tạo
+    */
+
+    const date =
+        p.NgayTao ||
+        p.ngayTao ||
+        p.CreatedAt ||
+        p.createdAt;
+
+
+    document.getElementById(
+        'joinDate'
+    ).textContent =
+        formatDate(date);
+
+
+    /*
+        Lưu localStorage để header
+        các trang khác có thể sử dụng.
+    */
+
+    const localUser =
+        JSON.parse(
+            localStorage.getItem('user') ||
+            '{}'
+        );
+
+
+    localStorage.setItem(
+        'user',
+        JSON.stringify({
+            ...localUser,
+            ...p
+        })
+    );
+
+}
+
+function togglePhoneVisibility() {
+    if (!currentPhone) return;
+    phoneVisible = !phoneVisible;
+    document.getElementById('infoPhone').textContent = phoneVisible
+        ? safe(currentPhone)
+        : (currentPhone.length > 6 ? `${currentPhone.slice(0, 3)}••••${currentPhone.slice(-3)}` : '••••••');
+    const button = document.getElementById('revealPhoneButton');
+    button.textContent = phoneVisible ? 'Ẩn số' : 'Bấm để hiện';
+    button.setAttribute('aria-label', phoneVisible ? 'Ẩn số điện thoại' : 'Hiện số điện thoại');
+}
+
+
+/* =========================================================
+   FORMAT ROLE
+========================================================= */
+
+function formatRole(role) {
+
+    const value =
+        String(role || '').toLowerCase();
+
+
+    if (
+        value === 'admin' ||
+        value === 'quantri'
+    ) {
+        return 'Quản trị viên';
+    }
+
+
+    if (
+        value === 'seller' ||
+        value === 'nguoi ban' ||
+        value === 'nguoiban'
+    ) {
+        return 'Người bán';
+    }
+
+
+    return 'Thành viên';
+
+}
+
+
+/* =========================================================
+   FORMAT STATUS
+========================================================= */
+
+function formatStatus(status) {
+
+    if (
+        status === false ||
+        status === 0 ||
+        String(status).toLowerCase() === 'inactive'
+    ) {
+        return 'Tạm khóa';
+    }
+
+    return 'Hoạt động';
+
+}
+
+
+/* =========================================================
+   FORMAT DATE
+========================================================= */
+
+function formatDate(date) {
+
+    if (!date) return '--';
+
+    const d = new Date(date);
+
+    if (Number.isNaN(d.getTime())) {
+        return '--';
+    }
+
+    return d.toLocaleDateString(
+        'vi-VN',
+        {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        }
+    );
+
+}
+
+
+/* =========================================================
+   HEADER AVATAR CLICK
+========================================================= */
+
+document
+    .getElementById('headerAvatar')
+    .addEventListener('click', function () {
+
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+
+    });
+
+
+/* =========================================================
+   CHẠY
+========================================================= */
+
+document.getElementById('changePasswordForm').addEventListener('submit', async event => {
+    event.preventDefault();
+    const message = document.getElementById('changePasswordMessage');
+    const newPassword = document.getElementById('newPassword').value;
+    if (newPassword !== document.getElementById('confirmNewPassword').value) {
+        message.className = 'alert alert-danger mb-0';
+        message.textContent = 'Mật khẩu mới nhập lại không khớp.';
+        return;
+    }
+
+    const submitButton = event.currentTarget.querySelector('[type="submit"]');
+    submitButton.disabled = true;
+    try {
+        const response = await fetch('/api/account/password', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+            body: JSON.stringify({
+                matKhauCu: document.getElementById('currentPassword').value,
+                matKhauMoi: newPassword
+            })
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.message || 'Không thể đổi mật khẩu.');
+
+        message.className = 'alert alert-success mb-0';
+        message.textContent = data.message;
+        event.currentTarget.reset();
+        bootstrap.Modal.getOrCreateInstance(document.getElementById('changePasswordModal')).hide();
+        alert(data.message);
+        // Token cũ đã bị thu hồi sau khi đổi mật khẩu: lưu token mới rồi tải lại trang
+        if (data.token) {
+            localStorage.setItem('token', data.token);
+            location.reload();
+        }
+    } catch (error) {
+        message.className = 'alert alert-danger mb-0';
+        message.textContent = error.message;
+    } finally {
+        submitButton.disabled = false;
+    }
+});
+
+document.addEventListener(
+    'DOMContentLoaded',
+    function () {
+        loadAccount();
+    }
+);
+
+</script>
+
+<script src="/js/site-config.js"></script>
+    <script src="/js/footer.js"></script>
+</body>
+</html>

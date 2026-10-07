@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHỢ ĐỒ CŨ - Kênh trung gian mua bán đồ cũ</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!-- Custom CSS Xanh Blue -->
+    <link rel="stylesheet" href="css/style.css">
+    <meta name="description" content="Chợ Đồ Cũ - nơi mua bán đồ cũ uy tín: điện thoại, xe cộ, đồ gia dụng, thời trang... Đăng tin miễn phí, liên hệ trực tiếp người bán.">
+    <meta property="og:title" content="Chợ Đồ Cũ - Mua bán đồ cũ uy tín">
+    <meta property="og:description" content="Đăng tin miễn phí, tìm đồ cũ gần bạn, nhắn tin trực tiếp với người bán.">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Chợ Đồ Cũ">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%9B%8D%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+
+    <!-- 1. TOP BAR -->
+    <div class="top-bar">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div>Kênh trung gian kết nối người mua & người bán đồ cũ tại Việt Nam</div>
+            <div class="d-flex gap-4">
+                <span><i class="bi bi-clock me-1"></i> Hỗ trợ 24/7</span>
+                <a href="#" data-site="hotline" hidden><i class="bi bi-telephone-fill me-1"></i> Hotline: <span data-site-text="hotline"></span></a>
+            </div>
+        </div>
+    </div>
+
+<!-- HEADER & HERO BANNER TỔNG HỢP -->
+<header class="hero-header">
+    <!-- TẦNG 1: MAIN NAVIGATION BAR -->
+    <div class="top-nav container-fluid px-4 py-3">
+        <div class="d-flex align-items-center justify-content-between gap-3">
+            
+            <!-- Logo & Menu Button -->
+            <div class="d-flex align-items-center gap-3">
+                <button class="btn text-white p-0 border-0 fs-4" id="categoryMenuButton" type="button" aria-label="Mở danh mục" aria-expanded="false" aria-controls="categoryMenu">
+                    <i class="bi bi-list"></i>
+                </button>
+                <a href="#" class="brand-logo text-decoration-none text-white fw-bold fs-4 d-flex align-items-center gap-2">
+                    <i class="bi bi-recycle"></i><span>CHỢ ĐỒ CŨ</span>
+                </a>
+            </div>
+
+            <!-- Navigation Links -->
+            <div class="header-links d-none d-lg-flex align-items-center gap-4 text-white">
+                <a href="#" class="text-white text-decoration-none fw-semibold">Chợ đồ cũ</a>
+                <a href="#" class="text-white text-decoration-none">Xe cộ</a>
+                <a href="#" class="text-white text-decoration-none">Góc 0 Đồng</a>
+            </div>
+
+            <!-- Action Buttons -->
+         <!-- Action Buttons -->
+<div class="auth-actions d-flex align-items-center gap-2">
+
+    <!-- Yêu thích -->
+    <button
+        class="btn btn-outline-light rounded-circle icon-btn"
+        type="button"
+        onclick="location.href='/saved.html'"
+        aria-label="Yêu thích">
+        <i class="bi bi-heart"></i>
+    </button>
+
+    <!-- Thông báo -->
+    <button
+        class="btn btn-outline-light rounded-circle icon-btn"
+        type="button"
+        onclick="location.href='/notifications.html'"
+        aria-label="Thông báo">
+        <i class="bi bi-bell"></i>
+    </button>
+
+  <!-- Lịch sử chat -->
+<button
+    id="chatHistoryButton"
+    class="btn btn-outline-light rounded-pill px-3 py-1 text-nowrap d-none d-sm-inline-flex align-items-center gap-1"
+    type="button"
+    onclick="openChatHistory()"
+    aria-label="Lịch sử chat">
+    <i class="bi bi-chat-square-text"></i>
+    Lịch sử chat
+</button>
+
+    <!-- ==============================
+    KHU VỰC ĐĂNG NHẬP / TÀI KHOẢN
+    ============================== -->
+
+    <div id="accountArea" class="position-relative">
+
+        <!-- Chưa đăng nhập -->
+        <a
+            id="loginButton"
+            href="/auth.html?mode=login"
+            class="btn btn-light rounded-pill px-3 py-1 fw-semibold text-nowrap">
+            Đăng nhập
+        </a>
+
+        <!-- Đã đăng nhập -->
+        <div
+        id="accountDropdown">
+        
+            <!-- Nút tài khoản -->
+            <button
+                id="accountButton"
+                type="button"
+                class="account-button">
+
+                <span
+                    id="accountAvatar"
+                    class="account-avatar">
+                    P
+                </span>
+
+                <span
+                    id="accountName"
+                    class="account-name">
+                    Tài khoản
+                </span>
+
+                <i class="bi bi-chevron-down"></i>
+
+            </button>
+
+            <!-- MENU -->
+            <div
+                id="accountMenu"
+                class="account-menu">
+
+                <!-- Thông tin người dùng -->
+                <div class="account-menu-header">
+
+                    <span
+                        id="accountAvatarMenu"
+                        class="account-avatar account-avatar-large">
+                        P
+                    </span>
+
+                    <div>
+
+                        <div
+                            id="accountMenuName"
+                            class="account-menu-name">
+                            Tài khoản
+                        </div>
+
+                        <div
+                            id="accountMenuEmail"
+                            class="account-menu-email">
+                            email@gmail.com
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="account-menu-divider"></div>
+
+                <!-- Tài khoản -->
+                <a
+                    href="/account.html"
+                    class="account-menu-item">
+
+                    <i class="bi bi-person"></i>
+
+                    <span>Tài khoản của tôi</span>
+
+                </a>
+
+                <!-- Quản lý tin -->
+                <a
+                    href="/account.html"
+                    class="account-menu-item">
+
+                    <i class="bi bi-file-earmark-text"></i>
+
+                    <span>Quản lý tin đăng</span>
+
+                </a>
+
+                <!-- Tin đã lưu -->
+                <a
+                    href="/saved.html"
+                    class="account-menu-item">
+
+                    <i class="bi bi-heart"></i>
+
+                    <span>Tin đã lưu</span>
+
+                </a>
+
+                <div class="account-menu-divider"></div>
+
+                <!-- Đăng xuất -->
+                <button
+                    type="button"
+                    class="account-menu-item logout-item"
+                    onclick="logout()">
+
+                    <i class="bi bi-box-arrow-right"></i>
+
+                    <span>Đăng xuất</span>
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Đăng bài -->
+    <button
+        id="btnPostForm"
+        type="button"
+        onclick="openPostModal()"
+        class="btn btn-warning rounded-pill px-3 py-1 fw-bold text-dark text-nowrap">
+        <i class="bi bi-plus-lg me-1"></i>Đăng Tin
+    </button>
+
+</div>
+
+        </div>
+    </div>
+
+    <!-- TẦNG 2: SLOGAN CHÍNH GIỮA BANNER -->
+    <div class="hero-slogan text-center">
+        <h1 class="fw-bold text-white display-5 mb-0">Món hay giá tốt, chờ gì mà không chốt!</h1>
+    </div>
+
+    <!-- TẦNG 3: THANH TÌM KIẾM KHUNG TỐI NỔI PHÍA DƯỚI -->
+    <div class="container hero-search-container mt-4">
+        <div class="search-bar-wrapper mx-auto">
+            <div class="row g-2 align-items-center">
+                <div class="col">
+                    <div class="input-group">
+                        <span class="input-group-text bg-transparent border-0 text-white-50 ps-3">
+                            <i class="bi bi-search fs-5"></i>
+                        </span>
+                        <input type="text" id="searchKeyword" list="searchSuggestions" class="form-control bg-transparent border-0 text-white shadow-none ps-2" placeholder="Tìm sản phẩm iPhone cũ, Laptop, Tủ lạnh...">
+                        <datalist id="searchSuggestions"></datalist>
+                    </div>
+                </div>
+                <div class="col-auto d-none d-md-block border-start border-secondary ps-3 pe-2">
+                    <select id="searchLocation" class="form-select bg-transparent border-0 text-white shadow-none cursor-pointer">
+                        <option class="text-dark" value="">📍 Chọn khu vực</option>
+                    </select>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-warning fw-bold px-4 py-2 rounded-3 text-dark" type="button" onclick="fetchProducts()">
+                        Tìm kiếm
+                    </button>
+                </div>
+            </div>
+            <div class="row g-2 mt-2 px-2">
+                <div class="col-6 col-lg">
+                    <input id="searchMinPrice" type="number" min="0" class="form-control" placeholder="Giá từ (VNĐ)">
+                </div>
+                <div class="col-6 col-lg">
+                    <input id="searchMaxPrice" type="number" min="0" class="form-control" placeholder="Giá đến (VNĐ)">
+                </div>
+                <div class="col-12 col-lg">
+                    <select id="searchCondition" class="form-select">
+                        <option value="">Mọi tình trạng</option>
+                        <option>Mới 99%</option>
+                        <option>Đã qua sử dụng (còn tốt)</option>
+                        <option>Cũ / Có trầy xước</option>
+                        <option>Hỏng nhẹ / Cần sửa chữa</option>
+                    </select>
+                </div>
+                <div class="col-12 col-lg">
+                    <select id="searchSort" class="form-select" aria-label="Sắp xếp sản phẩm">
+                        <option value="newest">Mới nhất</option>
+                        <option value="price-asc">Giá tăng dần</option>
+                        <option value="price-desc">Giá giảm dần</option>
+                        <option value="near">📍 Gần tôi</option>
+                    </select>
+                </div>
+                <div class="col-12 text-end">
+                    <button type="button" class="btn btn-sm btn-outline-light" onclick="saveCurrentSearch()">Lưu tìm kiếm</button>
+                    <span id="searchHint" class="small ms-2"></span>
+                    <div id="savedSearchList" class="small mt-2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+    <!-- SIDE CATEGORY MENU - FIX -->
+    <div id="categoryMenuOverlay" class="category-menu-overlay" aria-hidden="true"></div>
+
+    <aside id="categoryMenu"
+           class="category-menu"
+           aria-label="Danh mục"
+           aria-expanded="false">
+        <div class="category-menu-header">
+            <div>
+                <div class="category-menu-title">
+                    <i class="bi bi-grid-3x3-gap-fill me-2"></i>Danh mục
+                </div>
+                <div class="category-menu-subtitle">Khám phá đồ cũ theo nhu cầu</div>
+            </div>
+            <button id="categoryMenuClose"
+                    type="button"
+                    class="category-menu-close"
+                    aria-label="Đóng menu">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
+
+        <div class="category-menu-body">
+            <a href="/" class="category-menu-item">
+                <span class="category-menu-icon"><i class="bi bi-house-door-fill"></i></span>
+                <span>Tất cả sản phẩm</span>
+                <i class="bi bi-chevron-right ms-auto"></i>
+            </a>
+
+            <div class="category-menu-label">Danh mục đồ cũ</div>
+
+            <a href="#categoryStrip" class="category-menu-item">
+                <span class="category-menu-icon"><i class="bi bi-phone"></i></span>
+                <span>Điện thoại, máy tính bảng</span>
+                <i class="bi bi-chevron-right ms-auto"></i>
+            </a>
+            <a href="#categoryStrip" class="category-menu-item">
+                <span class="category-menu-icon"><i class="bi bi-laptop"></i></span>
+                <span>Máy tính, laptop</span>
+                <i class="bi bi-chevron-right ms-auto"></i>
+            </a>
+            <a href="#categoryStrip" class="category-menu-item">
+                <span class="category-menu-icon"><i class="bi bi-car-front-fill"></i></span>
+                <span>Xe cộ</span>
+                <i class="bi bi-chevron-right ms-auto"></i>
+            </a>
+            <a href="#categoryStrip" class="category-menu-item">
+                <span class="category-menu-icon"><i class="bi bi-house-heart-fill"></i></span>
+                <span>Đồ gia dụng, nội thất</span>
+                <i class="bi bi-chevron-right ms-auto"></i>
+            </a>
+            <a href="#categoryStrip" class="category-menu-item">
+                <span class="category-menu-icon"><i class="bi bi-handbag-fill"></i></span>
+                <span>Thời trang, đồ dùng cá nhân</span>
+                <i class="bi bi-chevron-right ms-auto"></i>
+            </a>
+            <a href="#categoryStrip" class="category-menu-item">
+                <span class="category-menu-icon"><i class="bi bi-controller"></i></span>
+                <span>Giải trí, thể thao, sở thích</span>
+                <i class="bi bi-chevron-right ms-auto"></i>
+            </a>
+            <a href="#categoryStrip" class="category-menu-item">
+                <span class="category-menu-icon"><i class="bi bi-recycle"></i></span>
+                <span>Khác</span>
+                <i class="bi bi-chevron-right ms-auto"></i>
+            </a>
+
+            <div class="category-menu-divider"></div>
+
+            <a href="/saved.html" class="category-menu-item">
+                <span class="category-menu-icon"><i class="bi bi-heart-fill"></i></span>
+                <span>Tin đã lưu</span>
+                <i class="bi bi-chevron-right ms-auto"></i>
+            </a>
+            <a href="/messages.html" class="category-menu-item">
+                <span class="category-menu-icon"><i class="bi bi-chat-dots-fill"></i></span>
+                <span>Lịch sử chat</span>
+                <i class="bi bi-chevron-right ms-auto"></i>
+            </a>
+        </div>
+    </aside>
+
+        <!-- 5. FEATURE BAR (4 TIÊU CHÍ) -->
+        <div class="feature-bar">
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <div class="feature-item">
+                        <div class="feature-icon"><i class="bi bi-lightning-charge"></i></div>
+                        <div class="feature-info">
+                            <h6>Đăng bán cực nhanh</h6>
+                            <p>Tạo tin rao chỉ trong 30 giây</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="feature-item">
+                        <div class="feature-icon"><i class="bi bi-shield-check"></i></div>
+                        <div class="feature-info">
+                            <h6>Kết nối trực tiếp</h6>
+                            <p>Người mua và người bán tự trao đổi</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="feature-item">
+                        <div class="feature-icon"><i class="bi bi-truck"></i></div>
+                        <div class="feature-info">
+                            <h6>Tự thỏa thuận giao dịch</h6>
+                            <p>Hai bên chủ động cách nhận hàng</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="feature-item">
+                        <div class="feature-icon"><i class="bi bi-cash-coin"></i></div>
+                        <div class="feature-info">
+                            <h6>Thông tin minh bạch</h6>
+                            <p>Xem rõ tình trạng và khu vực người bán</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. DANH MỤC ĐỒ CŨ NỔI BẬT -->
+        <div class="d-flex justify-content-between align-items-center mt-5 mb-3">
+            <h3 class="fw-bold m-0">Danh mục đồ cũ hot</h3>
+            <a href="#" class="text-primary text-decoration-none fw-semibold">Xem tất cả danh mục <i class="bi bi-chevron-right"></i></a>
+        </div>
+        <div class="category-strip-wrapper">
+            <button class="category-arrow category-arrow-left" type="button" aria-label="Xem danh mục trước">
+                <i class="bi bi-chevron-left"></i>
+            </button>
+            <div class="category-strip" id="categoryStrip">
+                <div class="category-card"><i class="bi bi-house-check"></i><span>Dịch vụ chăm sóc nhà cửa</span></div>
+                <div class="category-card"><i class="bi bi-heart-pulse"></i><span>Thú cưng</span></div>
+                <div class="category-card"><i class="bi bi-egg-fried"></i><span>Đồ ăn, thực phẩm, và các loại khác</span></div>
+                <div class="category-card"><i class="bi bi-refrigerator"></i><span>Tủ lạnh, máy lạnh, máy giặt</span></div>
+                <div class="category-card"><i class="bi bi-house-heart"></i><span>Đồ gia dụng, nội thất, cây cảnh</span></div>
+                <div class="category-card"><i class="bi bi-balloon-heart"></i><span>Mẹ và bé</span></div>
+                <div class="category-card"><i class="bi bi-handbag"></i><span>Thời trang, đồ dùng cá nhân</span></div>
+                <div class="category-card"><i class="bi bi-controller"></i><span>Giải trí, Thể thao, Sở thích</span></div>
+                <div class="category-card"><i class="bi bi-printer"></i><span>Đồ dùng văn phòng, công nông nghiệp</span></div>
+                <div class="category-card"><i class="bi bi-tools"></i><span>Dịch vụ, du lịch</span></div>
+            </div>
+            <button class="category-arrow category-arrow-right" type="button" aria-label="Xem thêm danh mục">
+                <i class="bi bi-chevron-right"></i>
+            </button>
+        </div>
+
+        <section class="product-section mt-5">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2 class="fw-bold m-0">Sản phẩm mới đăng</h2>
+                <span class="text-muted">Tin đăng từ cộng đồng người bán</span>
+            </div>
+            <div class="row g-3" id="allProductList"></div>
+            <div class="text-center mt-3">
+                <div id="productLoadError" class="text-danger small mb-2 d-none" role="status"></div>
+                <button id="loadMoreProductsBtn" class="btn btn-outline-primary rounded-pill px-4 d-none"
+                        type="button" onclick="fetchProducts({ append: true })">Xem thêm</button>
+            </div>
+            <section id="recentlyViewedSection" class="mt-5 d-none">
+                <h2 class="fw-bold h4 mb-3">Tin đã xem gần đây</h2>
+                <div class="row g-3" id="recentlyViewedList"></div>
+            </section>
+        </section>
+
+    </div>
+
+    <!-- 8. FLOATING BUTTONS -->
+    <div class="floating-sidebar">
+        <a href="#" class="float-btn phone" data-site="hotline" hidden title="Gọi hotline"><i class="bi bi-telephone-fill"></i></a>
+        <a href="#" class="float-btn zalo" data-site="zalo" hidden target="_blank" rel="noopener" title="Chat Zalo hỗ trợ"><i class="bi bi-chat-dots-fill"></i></a>
+        <a href="#" class="float-btn facebook" data-site="facebook" hidden target="_blank" rel="noopener" title="Fanpage Facebook"><i class="bi bi-facebook"></i></a>
+        <a href="#top" class="float-btn" title="Lên đầu trang"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
+    <!-- MODAL ĐĂNG NHẬP / ĐĂNG KÝ -->
+    <div class="modal fade" id="authModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Form Đăng Nhập -->
+                <div id="loginPanel">
+                    <div class="modal-header bg-dark text-white">
+                        <h5 class="modal-title"><i class="bi bi-lock me-2"></i>Đăng Nhập Tài Khoản</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form onsubmit="handleLogin(event)">
+                            <div class="mb-3">
+                                <label class="form-label">Số điện thoại hoặc email</label>
+                                <input type="text" id="loginIdentifier" class="form-control" placeholder="0901234567 hoặc email@gmail.com" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Mật khẩu</label>
+                                <input type="password" id="loginPass" class="form-control" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100 fw-bold py-2">Đăng Nhập Ngay</button>
+                        </form>
+                        <p class="text-center mt-3 mb-0">Chưa có tài khoản?
+                            <a href="#" onclick="showAuthRegister(event)">Đăng ký ngay</a>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Form Đăng Ký -->
+                <div id="registerPanel" class="d-none">
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title"><i class="bi bi-person-plus me-2"></i>Tạo tài khoản</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="registerPhoneForm" onsubmit="handleRegistrationPhone(event)">
+                            <p class="text-muted">Bắt đầu bằng số điện thoại để kiểm tra tài khoản.</p>
+                            <label class="form-label">Số điện thoại</label>
+                            <input id="registerPhone" type="tel" class="form-control" placeholder="0901234567" required>
+                            <button type="submit" class="btn btn-primary w-100 mt-4 fw-bold">Tiếp tục</button>
+                            <p class="text-center mt-3 mb-0">Đã có tài khoản?
+                                <a href="#" onclick="showAuthLogin(event)">Đăng nhập</a>
+                            </p>
+                        </form>
+
+                        <form id="registerForm" class="d-none" onsubmit="handleRegister(event)">
+                            <input type="hidden" id="registrationPhoneVerified">
+                            <p class="text-muted">Hoàn tất thông tin tài khoản của bạn.</p>
+                            <div class="row g-3">
+                                <div class="col-md-6"><label class="form-label">Họ và tên</label><input id="registerName" class="form-control" required></div>
+                                <div class="col-md-6"><label class="form-label">Email</label><input id="registerEmail" type="email" class="form-control" required></div>
+                                <div class="col-md-6"><label class="form-label">Mật khẩu</label><input id="registerPass" type="password" minlength="8" class="form-control" required></div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Tỉnh/Thành phố</label>
+                                    <select id="registerProvince" class="form-select" required>
+                                        <option value="">Đang tải tỉnh/thành...</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Quận/Huyện/Phường</label>
+                                    <select id="registerWard" class="form-select" required disabled>
+                                        <option value="">Chọn tỉnh/thành trước</option>
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label">Địa chỉ người nhận</label>
+                                    <input id="registerAddress" class="form-control" placeholder="Nhập địa chỉ chi tiết..." required>
+                                </div>
+                            </div>
+                            <div class="form-check my-3">
+                                <input class="form-check-input" type="checkbox" id="registerConsent" required>
+                                <label class="form-check-label small" for="registerConsent">Tôi đã đọc và đồng ý với <a href="/terms.html" target="_blank" rel="noopener">Điều khoản sử dụng</a> và <a href="/privacy.html" target="_blank" rel="noopener">Chính sách bảo mật</a>, bao gồm việc thu thập và xử lý email, số điện thoại, địa chỉ của tôi.</label>
+                            </div>
+                            <button type="button" class="btn btn-link px-0 mt-3" onclick="showRegistrationPhoneStep()">← Đổi số điện thoại</button>
+                            <button type="submit" class="btn btn-primary w-100 fw-bold">Đăng ký tài khoản</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL CHỌN DANH MỤC KHI ĐĂNG TIN -->
+    <div class="modal fade" id="postCategoryModal" tabindex="-1" aria-labelledby="postCategoryModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered post-category-dialog">
+            <div class="modal-content post-category-content">
+                <div class="post-category-header">
+                    <button type="button" class="post-category-close" data-bs-dismiss="modal" aria-label="Đóng">&times;</button>
+                    <h4 id="postCategoryModalLabel">Đăng tin</h4>
+                </div>
+                <div class="post-category-body">
+                    <h5>Chọn danh mục</h5>
+                    <div class="post-category-list">
+                        <button type="button" class="post-category-item" data-category-id="1" data-category-name="Điện thoại">
+                            <span class="post-category-icon electronics"><i class="bi bi-phone"></i></span>
+                            <span><strong>Điện thoại</strong><small>iPhone, Samsung, Xiaomi,...</small></span><i class="bi bi-chevron-right"></i>
+                        </button>
+                        <button type="button" class="post-category-item" data-category-id="3" data-category-name="Đồ điện tử">
+                            <span class="post-category-icon electronics"><i class="bi bi-laptop"></i></span>
+                            <span><strong>Đồ điện tử</strong><small>Laptop, tai nghe, loa, máy ảnh,...</small></span><i class="bi bi-chevron-right"></i>
+                        </button>
+                        <button type="button" class="post-category-item" data-category-id="6" data-category-name="Xe cộ">
+                            <span class="post-category-icon vehicles"><i class="bi bi-bicycle"></i></span>
+                            <span><strong>Xe cộ</strong><small>Xe máy, xe đạp và phụ kiện</small></span><i class="bi bi-chevron-right"></i>
+                        </button>
+                        <button type="button" class="post-category-item" data-category-id="4" data-category-name="Đồ gia dụng">
+                            <span class="post-category-icon homegoods"><i class="bi bi-house-heart"></i></span>
+                            <span><strong>Đồ gia dụng</strong><small>Tủ lạnh, máy giặt, đồ dùng gia đình,...</small></span><i class="bi bi-chevron-right"></i>
+                        </button>
+                        <button type="button" class="post-category-item" data-category-id="5" data-category-name="Thời trang">
+                            <span class="post-category-icon fashion"><i class="bi bi-handbag"></i></span>
+                            <span><strong>Thời trang</strong><small>Quần áo, giày dép, túi xách,...</small></span><i class="bi bi-chevron-right"></i>
+                        </button>
+                        <button type="button" class="post-category-item" data-category-id="9" data-category-name="Khác">
+                            <span class="post-category-icon other"><i class="bi bi-box-seam"></i></span>
+                            <span><strong>Sản phẩm khác</strong><small>Nội thất, sách và các mặt hàng khác</small></span><i class="bi bi-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL ĐĂNG TIN - FORM ĐẦY ĐỦ -->
+    <div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="postModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header bg-warning">
+                    <div>
+                        <h5 class="modal-title fw-bold" id="postModalLabel">
+                            <i class="bi bi-megaphone me-2"></i>Đăng tin bán đồ cũ
+                        </h5>
+                        <small class="text-dark">Điền đầy đủ thông tin để người mua dễ tìm và tin tưởng sản phẩm của bạn.</small>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                </div>
+
+                <div class="modal-body bg-light">
+                    <form id="postProductForm" onsubmit="handlePostProduct(event)" enctype="multipart/form-data" novalidate>
+                        <div class="row g-4">
+                            <div class="col-lg-8">
+                                <div class="card border-0 shadow-sm h-100">
+                                    <div class="card-body p-4">
+                                        <h6 class="fw-bold mb-3"><i class="bi bi-info-circle text-primary me-2"></i>Thông tin sản phẩm</h6>
+
+                                        <div class="mb-3">
+                                            <label for="postProductName" class="form-label fw-semibold">Tên sản phẩm <span class="text-danger">*</span></label>
+                                            <input id="postProductName" name="tenSanPham" type="text" class="form-control" maxlength="255" minlength="5" placeholder="Ví dụ: iPhone 15 Pro Max 256GB màu Titan tự nhiên" required>
+                                            <div class="invalid-feedback">Vui lòng nhập tên sản phẩm từ 5 ký tự.</div>
+                                        </div>
+
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <label for="postCategory" class="form-label fw-semibold">Danh mục <span class="text-danger">*</span></label>
+                                                <select id="postCategory" name="maDanhMuc" class="form-select" required>
+                                                    <option value="">Đang tải danh mục...</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="postCondition" class="form-label fw-semibold">Tình trạng <span class="text-danger">*</span></label>
+                                                <select id="postCondition" name="tinhTrang" class="form-select" required>
+                                                    <option value="">-- Chọn tình trạng --</option>
+                                                    <option>Mới 99%</option>
+                                                    <option>Đã qua sử dụng (còn tốt)</option>
+                                                    <option>Cũ / Có trầy xước</option>
+                                                    <option>Hỏng nhẹ / Cần sửa chữa</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <label for="postPrice" class="form-label fw-semibold">Giá bán (VNĐ) <span class="text-danger">*</span></label>
+                                                <input id="postPrice" name="giaBan" type="number" class="form-control" min="1000" step="1000" placeholder="Ví dụ: 14500000" required>
+                                                <div class="form-text">Nhập giá thực tế bạn muốn bán.</div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="postQuantity" class="form-label fw-semibold">Số lượng <span class="text-danger">*</span></label>
+                                                <input id="postQuantity" name="soLuong" type="number" class="form-control" min="1" max="999" value="1" required>
+                                            </div>
+                                        </div>
+
+                                        <div class="mt-3">
+                                            <label for="postDescription" class="form-label fw-semibold">Mô tả chi tiết <span class="text-danger">*</span></label>
+                                            <textarea id="postDescription" name="moTa" class="form-control" rows="7" minlength="20" maxlength="5000" placeholder="Ví dụ: Máy sử dụng 8 tháng, ngoại hình 98%, màn hình không xước, pin 92%, đầy đủ phụ kiện, còn bảo hành..." required></textarea>
+                                            <div class="form-text">Nên ghi rõ thời gian sử dụng, ngoại hình, lỗi (nếu có), phụ kiện, bảo hành và giấy tờ.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <div class="card border-0 shadow-sm mb-4">
+                                    <div class="card-body p-4">
+                                        <h6 class="fw-bold mb-3"><i class="bi bi-images text-primary me-2"></i>Hình ảnh sản phẩm</h6>
+                                        <label for="postImage" class="form-label fw-semibold">Ảnh minh họa <span class="text-danger">*</span></label>
+                                        <input id="postImage" name="hinhAnhs" type="file" multiple class="form-control" accept="image/jpeg,image/png,image/webp" required>
+                                        <div class="form-text">Bắt buộc ít nhất 1 ảnh, có thể chọn tối đa 8 ảnh. JPG, PNG hoặc WEBP, tối đa 5MB/ảnh.</div>
+                                        <div id="postImagePreview" class="mt-3 text-center d-none">
+                                            <img id="postImagePreviewImg" src="" alt="Ảnh xem trước" class="img-fluid rounded border" style="max-height:220px;object-fit:cover;">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card border-0 shadow-sm">
+                                    <div class="card-body p-4">
+                                        <h6 class="fw-bold mb-3"><i class="bi bi-geo-alt text-danger me-2"></i>Địa điểm giao dịch</h6>
+                                        <div class="mb-3">
+                                            <label for="postProvince" class="form-label fw-semibold">Tỉnh/Thành phố <span class="text-danger">*</span></label>
+                                            <select id="postProvince" class="form-select" required>
+                                                <option value="">Chọn Tỉnh/Thành phố</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="postWard" class="form-label fw-semibold">Phường/Xã <span class="text-danger">*</span></label>
+                                            <select id="postWard" class="form-select" required disabled>
+                                                <option value="">Chọn tỉnh/thành trước</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="postAddress" class="form-label fw-semibold">Địa chỉ chi tiết <span class="text-danger">*</span></label>
+                                            <input id="postAddress" name="diaChiChiTiet" type="text" class="form-control" maxlength="255" placeholder="Ví dụ: 154/100, đường ABC" required>
+                                        </div>
+                                        <div class="alert alert-info small mb-0">
+                                            <i class="bi bi-shield-check me-1"></i>Không đăng số điện thoại, mật khẩu hoặc thông tin nhạy cảm trong phần mô tả.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-check mt-4">
+                            <input class="form-check-input" type="checkbox" id="postConfirm" required>
+                            <label class="form-check-label" for="postConfirm">
+                                Tôi cam kết thông tin và hình ảnh sản phẩm là chính xác, và tôi chịu trách nhiệm về nội dung tin đăng. <span class="text-danger">*</span>
+                            </label>
+                        </div>
+
+                        <div id="postFormMessage" class="alert d-none mt-3 mb-0"></div>
+
+                        <button id="postSubmitButton" type="submit" class="btn btn-warning w-100 mt-4 py-3 fw-bold">
+                            <i class="bi bi-send me-2"></i>Đăng tin ngay
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ================= SECTION: GIỚI THIỆU CHỢ ĐỒ CŨ (SEO TEXT & THU GỌN) ================= -->
+<section class="seo-intro-section py-4 my-4 bg-white rounded shadow-sm">
+    <div class="container-fluid px-4">
+        <h5 class="fw-bold text-dark mb-3">Chợ Đồ Cũ - Chợ Mua Bán, Rao Vặt Trực Tuyến Hàng Đầu</h5>
+        
+        <!-- Khối chứa nội dung văn bản giới thiệu -->
+        <div class="seo-content-wrapper collapsed" id="seoContentWrapper">
+            <div class="seo-content">
+                <p>Chợ Đồ Cũ chính thức gia nhập thị trường Việt Nam với mục đích tạo ra một kênh rao vặt trung gian uy tín, kết nối người mua và người bán lại với nhau bằng những giao dịch đơn giản, nhanh chóng và an toàn.</p>
+                <p>Đến nay, Chợ Đồ Cũ tự hào là Website mua bán đồ cũ được ưa chuộng. Hàng ngàn món hời từ Điện tử, Đồ dùng cá nhân, Xe cộ, Đồ gia dụng... đến rất nhiều lĩnh vực khác đang được đăng tin rao bán mỗi ngày.</p>
+                
+                <h6 class="fw-bold mt-3">Các danh mục mua bán nổi bật:</h6>
+                <ul class="ps-3">
+                    <li><strong>Đồ điện tử:</strong> Điện thoại di động, máy tính bảng, laptop, tivi, loa, amply, máy ảnh cũ với đa dạng thương hiệu và mức giá hợp lý.</li>
+                    <li><strong>Đồ dùng cá nhân:</strong> Quần áo, giày dép, túi xách, đồng hồ cũ hợp thời trang và tiết kiệm chi phí.</li>
+                    <li><strong>Đồ gia dụng:</strong> Máy giặt, tủ lạnh, máy lạnh điều hòa, đồ dùng gia đình đã qua sử dụng còn mới và bền đẹp.</li>
+                    <li><strong>Phương tiện & Đồ nghề:</strong> Xe máy, xe đạp, máy tính bàn giá rẻ, linh kiện và phụ kiện các loại.</li>
+                </ul>
+
+                <p>Với Chợ Đồ Cũ, bạn có thể dễ dàng đăng tin bán các mặt hàng không còn sử dụng để thu hồi vốn hoặc săn tìm những sản phẩm chất lượng với mức giá tiết kiệm đáng kể so với đồ mới. Hãy trải nghiệm mua bán an toàn và tiện lợi ngay hôm nay!</p>
+            </div>
+
+            <!-- Lớp phủ làm mờ mờ ở đáy khi ở trạng thái thu gọn -->
+            <div class="seo-overlay"></div>
+        </div>
+
+        <!-- Nút bấm Thu gọn / Xem thêm -->
+        <div class="text-center mt-3">
+            <button type="button" class="btn btn-outline-secondary btn-sm px-4 rounded-pill" id="toggleSeoBtn">
+                <span>Xem thêm</span> <i class="bi bi-chevron-down ms-1" id="toggleSeoIcon"></i>
+            </button>
+        </div>
+    </div>
+</section>
+<!-- ================= SECTION: CÁC TỪ KHÓA PHỔ BIẾN ================= -->
+<section class="popular-keywords-section py-4 my-4 bg-white rounded shadow-sm">
+    <div class="container-fluid px-4">
+        <h5 class="fw-bold text-dark mb-4">Các từ khóa phổ biến</h5>
+        
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3" id="popularKeywordsList">
+            <!-- Cột 1 -->
+            <div class="col">
+                <ul class="list-unstyled keyword-list m-0">
+                    <li><a href="#" class="keyword-link" data-keyword="iPhone 12">iPhone 12</a></li>
+                    <li><a href="#" class="keyword-link" data-keyword="iPhone 14 Pro Max">iPhone 14 Pro Max</a></li>
+                    <li><a href="#" class="keyword-link" data-keyword="Điện Thoại iPhone Cũ">Điện Thoại iPhone Cũ</a></li>
+                    <li><a href="#" class="keyword-link" data-keyword="Điện thoại Samsung Cũ">Điện thoại Samsung Cũ</a></li>
+                    <li><a href="#" class="keyword-link" data-keyword="Máy quay cũ">Máy quay cũ</a></li>
+                    <li><a href="#" class="keyword-link" data-keyword="Loa Cũ">Loa Cũ</a></li>
+                    <li><a href="#" class="keyword-link" data-keyword="Điện Thoại Cũ">Điện Thoại Cũ</a></li>
+                </ul>
+            </div>
+
+            <!-- Cột 2 -->
+            <div class="col">
+                <ul class="list-unstyled keyword-list m-0">
+                    <li><a href="#" class="keyword-link" data-keyword="iPhone 12 Mini">iPhone 12 Mini</a></li>
+                    <li><a href="#" class="keyword-link" data-keyword="iPhone 14 Plus">iPhone 14 Plus</a></li>
+                    <li><a href="#" class="keyword-link" data-keyword="Dàn karaoke cũ">Dàn karaoke cũ</a></li>
+                    <li><a href="#" class="keyword-link" data-keyword="Máy tính để bàn giá rẻ">Máy tính để bàn giá rẻ</a></li>
+                    <li><a href="#" class="keyword-link" data-keyword="Micro cũ">Micro cũ</a></li>
+                    <li><a href="#" class="keyword-link" data-keyword="Máy tính để bàn cũ">Máy tính để bàn cũ</a></li>
+                    <li><a href="#" class="keyword-link" data-keyword="Macbook">Macbook</a></li>
+                </ul>
+            </div>
+
+            <!-- Cột 3 -->
+            <div class="col">
+                <ul class="list-unstyled keyword-list m-0">
+                    <li><a href="#" class="keyword-link" data-keyword="iPhone 12 Pro">iPhone 12 Pro</a></li>
+                    <li><a href="#" class="keyword-link" data-keyword="iPhone 14 Pro">iPhone 14 Pro</a></li>
+                    <li><a href="#" class="keyword-link" data-keyword="Tivi cũ giá rẻ">Tivi cũ giá rẻ</a></li>
+                    <li><a href="#" class="keyword-link" data-keyword="Ống kính (lens) cũ">Ống kính (lens) cũ</a></li>
+                    <li><a href="#" class="keyword-link" data-keyword="Tai Nghe Cũ">Tai Nghe Cũ</a></li>
+                    <li><a href="#" class="keyword-link" data-keyword="Máy Tính Bảng Cũ">Máy Tính Bảng Cũ</a></li>
+                </ul>
+            </div>
+
+            <!-- Cột 4 -->
+            <div class="col">
+                <ul class="list-unstyled keyword-list m-0">
+                    <li><a href="#" class="keyword-link" data-keyword="iPhone 12 Pro Max">iPhone 12 Pro Max</a></li>
+                    <li><a href="#" class="keyword-link" data-keyword="Samsung S25 Edge">Samsung S25 Edge</a></li>
+                    <li><a href="#" class="keyword-link" data-keyword="iPhone 16e">iPhone 16e</a></li>
+                    <li><a href="#" class="keyword-link" data-keyword="Máy ảnh cũ">Máy ảnh cũ</a></li>
+                    <li><a href="#" class="keyword-link" data-keyword="Amply">Amply</a></li>
+                    <li><a href="#" class="keyword-link" data-keyword="Laptop Cũ">Laptop Cũ</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        // Mở luồng Đăng tin khi đi từ trang Tài khoản (?post=1).
+        if (new URLSearchParams(window.location.search).get('post') === '1') {
+            window.setTimeout(() => {
+                if (typeof openPostModal === 'function') openPostModal();
+            }, 250);
+        }
+
+        const categoryMenuButton = document.getElementById('categoryMenuButton');
+        const categoryMenu = document.getElementById('categoryMenu');
+        function toggleCategoryMenu(force) {
+            if (!categoryMenu || !categoryMenuButton) return;
+            const open = typeof force === 'boolean' ? force : !categoryMenu.classList.contains('show');
+            categoryMenu.classList.toggle('show', open);
+            categoryMenuButton.setAttribute('aria-expanded', String(open));
+            categoryMenu.setAttribute('aria-expanded', String(open));
+        }
+        if (categoryMenuButton && categoryMenu) {
+            categoryMenuButton.onclick = event => {
+                event.stopPropagation();
+                toggleCategoryMenu();
+            };
+            categoryMenu.onclick = event => event.stopPropagation();
+            document.addEventListener('click', () => toggleCategoryMenu(false));
+            categoryMenu.querySelectorAll('a').forEach(link => {
+                link.onclick = () => toggleCategoryMenu(false);
+            });
+        }
+
+        const categoryStrip = document.getElementById('categoryStrip');
+        document.querySelector('.category-arrow-left').onclick = () => {
+            categoryStrip.scrollBy({ left: -categoryStrip.clientWidth * 0.8, behavior: 'smooth' });
+        };
+        document.querySelector('.category-arrow-right').onclick = () => {
+            categoryStrip.scrollBy({ left: categoryStrip.clientWidth * 0.8, behavior: 'smooth' });
+        };
+    </script>
+    <script>
+        // FIX: menu bên trái - mở/đóng drawer + overlay
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuButton = document.getElementById('categoryMenuButton');
+            const menu = document.getElementById('categoryMenu');
+            const overlay = document.getElementById('categoryMenuOverlay');
+            const closeButton = document.getElementById('categoryMenuClose');
+
+            if (!menuButton || !menu || !overlay) return;
+
+            function setMenu(open) {
+                menu.classList.toggle('show', open);
+                overlay.classList.toggle('show', open);
+                menu.setAttribute('aria-expanded', String(open));
+                menuButton.setAttribute('aria-expanded', String(open));
+                overlay.setAttribute('aria-hidden', String(!open));
+                document.body.classList.toggle('category-menu-open', open);
+            }
+
+            menuButton.addEventListener('click', function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+                setMenu(!menu.classList.contains('show'));
+            });
+
+            if (closeButton) {
+                closeButton.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    setMenu(false);
+                });
+            }
+
+            overlay.addEventListener('click', function () {
+                setMenu(false);
+            });
+
+            menu.addEventListener('click', function (event) {
+                event.stopPropagation();
+            });
+
+            menu.querySelectorAll('a').forEach(function (link) {
+                link.addEventListener('click', function () {
+                    setMenu(false);
+                });
+            });
+
+            document.addEventListener('keydown', function (event) {
+                if (event.key === 'Escape') setMenu(false);
+            });
+        });
+    </script>
+    <script>
+function openChatHistory() {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+        window.location.href = '/auth.html?mode=login';
+        return;
+    }
+
+    window.location.href = '/messages.html';
+}
+</script>
+<script src="/js/site-config.js"></script>
+    <script src="/js/footer.js"></script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hồ sơ người bán - Chợ Đồ Cũ</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="bg-light">
+<main class="container py-4">
+    <a href="/" class="text-decoration-none"><i class="bi bi-arrow-left me-1"></i>Về trang chủ</a>
+    <div id="profile" class="my-3"><div class="text-center text-muted py-5">Đang tải...</div></div>
+    <h2 class="h5 fw-bold mb-3">Tin đang bán</h2>
+    <div id="list" class="row"></div>
+</main>
+<script>
+const esc = v => String(v ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+(async function () {
+    const id = new URLSearchParams(location.search).get('id');
+    const box = document.getElementById('profile');
+    try {
+        const r = await fetch('/api/sellers/' + encodeURIComponent(id));
+        const s = await r.json();
+        if (!r.ok) throw new Error(s.message || 'Không tìm thấy người bán.');
+        document.title = s.HoTen + ' - Chợ Đồ Cũ';
+        const joined = s.NgayTao ? new Date(s.NgayTao).toLocaleDateString('vi-VN') : '';
+        box.innerHTML = `
+            <div class="seller-box"><div class="d-flex align-items-center gap-3">
+                <div class="seller-avatar">${esc((s.HoTen || 'N').trim().charAt(0).toUpperCase())}</div>
+                <div>
+                    <div class="fw-bold fs-4">${esc(s.HoTen)} ${s.DaXacMinh ? '<span class="badge text-bg-primary" title="Đã xác minh">✓ Đã xác minh</span>' : ''}</div>
+                    <div class="text-muted small">Tham gia ${esc(joined)}${s.TinhThanh ? ' · ' + esc(s.TinhThanh) : ''}</div>
+                    <div class="text-warning fw-semibold">${Number(s.TongDanhGia) > 0 ? '★ ' + Number(s.SoSaoTrungBinh).toFixed(1) + ' / 5 · ' + Number(s.TongDanhGia) + ' đánh giá' : 'Chưa có đánh giá'}</div>
+                    <div class="small text-muted mt-1">${s.TyLePhanHoi == null ? 'Chưa có dữ liệu phản hồi' : 'Tỉ lệ phản hồi trong 24 giờ: ' + Number(s.TyLePhanHoi).toFixed(0) + '%'} · ${Number(s.SoNguoiTheoDoi || 0)} người theo dõi</div>
+                </div>
+            </div>
+            <div class="small text-muted mt-3"><i class="bi bi-box-seam me-1"></i>${Number(s.DangBan)} tin đang bán · <i class="bi bi-check2-circle me-1"></i>${Number(s.DaBan)} đã bán</div>
+            <div class="d-flex gap-2 mt-3" id="profileActions">
+                <button id="followSeller" class="btn btn-primary btn-sm" type="button"><i class="bi bi-person-plus me-1"></i>Theo dõi</button>
+                <button id="reportSeller" class="btn btn-outline-danger btn-sm" type="button"><i class="bi bi-flag me-1"></i>Báo cáo</button>
+            </div></div>`;
+        const token = localStorage.getItem('token');
+        const savedUser = JSON.parse(localStorage.getItem('user') || '{}');
+        const myId = Number(savedUser.id || savedUser.MaNguoiDung || 0);
+        const followButton = document.getElementById('followSeller');
+        const reportButton = document.getElementById('reportSeller');
+        const actions = document.getElementById('profileActions');
+        let following = false;
+        if (token && myId && myId !== Number(id)) {
+            const followResponse = await fetch('/api/sellers/' + encodeURIComponent(id) + '/follow', {
+                headers: { Authorization: 'Bearer ' + token }
+            });
+            if (!followResponse.ok) throw new Error('Không thể tải trạng thái theo dõi.');
+            const state = await followResponse.json();
+            following = state.following;
+            followButton.innerHTML = following ? '<i class="bi bi-person-dash me-1"></i>Đang theo dõi' : '<i class="bi bi-person-plus me-1"></i>Theo dõi';
+            followButton.addEventListener('click', async () => {
+                const response = await fetch('/api/sellers/' + encodeURIComponent(id) + '/follow', {
+                    method: following ? 'DELETE' : 'POST',
+                    headers: { Authorization: 'Bearer ' + token }
+                });
+                const result = await response.json();
+                if (!response.ok) return alert(result.message || 'Không thể cập nhật theo dõi.');
+                following = result.following;
+                followButton.textContent = following ? 'Đang theo dõi' : 'Theo dõi';
+                location.reload();
+            });
+            reportButton.addEventListener('click', async () => {
+                const reason = prompt('Lý do báo cáo: Lừa đảo, Quấy rối, Thông tin giả hoặc Lý do khác');
+                if (reason === null) return;
+                const details = prompt('Mô tả thêm (không bắt buộc):') || '';
+                const response = await fetch('/api/users/' + encodeURIComponent(id) + '/reports', {
+                    method: 'POST',
+                    headers: { Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ reason, details })
+                });
+                const result = await response.json();
+                alert(result.message || 'Không thể gửi báo cáo.');
+            });
+        } else {
+            actions.classList.add('d-none');
+        }
+        const list = document.getElementById('list');
+        list.innerHTML = s.products.length ? s.products.map(p => `
+            <div class="col-6 col-md-3 mb-4">
+                <a href="/product-detail.html?id=${encodeURIComponent(p.MaSanPham)}" class="text-decoration-none text-dark">
+                    <div class="card product-card h-100 shadow-sm">
+                        <img src="${esc(p.HinhAnh || '/uploads/default.jpg')}" class="card-img-top product-img" alt="${esc(p.TenSanPham)}" onerror="this.src='/uploads/default.jpg'">
+                        <div class="card-body">
+                            <span class="badge badge-condition mb-2">${esc(p.TenDanhMuc)}</span>
+                            <h6 class="card-title text-truncate fw-bold">${esc(p.TenSanPham)}</h6>
+                            <p class="mb-1 text-danger fw-bold">${Number(p.GiaBan).toLocaleString('vi-VN')} đ</p>
+                            <small class="text-muted"><i class="bi bi-geo-alt me-1"></i>${esc(p.DiaChiXemHang || '')}</small>
+                        </div>
+                    </div>
+                </a>
+            </div>`).join('') : '<div class="col-12 text-muted py-4">Người bán chưa có tin nào đang hiển thị.</div>';
+    } catch (e) { box.innerHTML = '<div class="alert alert-danger">' + esc(e.message) + '</div>'; }
+})();
+</script>
+<script src="/js/site-config.js"></script>
+    <script src="/js/footer.js"></script>
+</body>
+</html>

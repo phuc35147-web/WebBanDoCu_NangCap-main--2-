@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Quản trị - Chợ Đồ Cũ</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body data-no-footer>
+    <header class="main-header"><div class="container d-flex justify-content-between align-items-center">
+        <a href="/" class="brand-logo">CHỢ ĐỒ CŨ - QUẢN TRỊ</a>
+        <button class="btn btn-outline-light" onclick="logout()">Đăng xuất</button>
+    </div></header>
+    <main class="container py-4">
+        <div id="message" class="alert d-none"></div>
+        <section class="card shadow-sm mb-4">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2 class="h4 mb-0">Tổng quan hoạt động</h2>
+                    <button class="btn btn-sm btn-outline-primary" type="button" onclick="loadDashboard()">Làm mới</button>
+                </div>
+                <div id="dashboardMetrics" class="row g-3 mb-4"></div>
+                <h3 class="h6">Tin đăng mới trong 14 ngày</h3>
+                <canvas id="productTrendChart" role="img" aria-label="Biểu đồ số tin đăng mới theo ngày trong 14 ngày gần nhất"></canvas>
+            </div>
+        </section>
+        <section class="card shadow-sm mb-4">
+            <div class="card-body">
+                <h2 class="h4">Tùy chỉnh trang chủ</h2>
+                <form id="homepageForm" class="row g-3">
+                    <div class="col-md-6"><label class="form-label">Tiêu đề hero</label><input id="heroTitle" name="heroTitle" class="form-control"></div>
+                    <div class="col-md-6"><label class="form-label">Tiêu đề phụ</label><input id="heroSubtitle" name="heroSubtitle" class="form-control"></div>
+                    <div class="col-12"><label class="form-label">Mô tả</label><textarea id="heroDescription" name="heroDescription" class="form-control" rows="2"></textarea></div>
+                    <div class="col-md-8"><label class="form-label">URL ảnh/banner</label><input id="heroImageUrl" name="heroImageUrl" type="url" class="form-control" placeholder="https://..."></div>
+                    <div class="col-md-4"><label class="form-label">Hoặc tải ảnh lên</label><input id="heroImage" name="image" type="file" accept="image/*" class="form-control"></div>
+                    <div class="col-12"><button class="btn btn-primary" type="submit">Lưu nội dung trang chủ</button></div>
+                </form>
+            </div>
+        </section>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2>Quản lý tin đăng</h2><a href="/" class="btn btn-primary">Về trang bán hàng</a>
+        </div>
+        <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
+            <span id="selectedProductCount" class="text-muted me-2">Đã chọn 0 tin</span>
+            <button class="btn btn-sm btn-success" type="button" onclick="bulkModerate('approve')">Duyệt</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button" onclick="bulkModerate('hide')">Ẩn</button>
+            <button class="btn btn-sm btn-outline-danger" type="button" onclick="bulkModerate('delete')">Xóa</button>
+        </div>
+        <div class="table-responsive bg-white rounded shadow-sm">
+            <table class="table table-hover mb-0">
+                <thead><tr><th><input id="selectAllProducts" class="form-check-input" type="checkbox" aria-label="Chọn tất cả tin đăng"></th><th>Sản phẩm</th><th>Người bán</th><th>Giá</th><th>Ngày đăng</th><th>Trạng thái</th></tr></thead>
+                <tbody id="productTable"></tbody>
+            </table>
+        </div>
+        <section class="mt-5">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2>Báo cáo vi phạm</h2>
+                <button class="btn btn-outline-primary" type="button" onclick="loadReports()">Làm mới</button>
+            </div>
+            <div class="table-responsive bg-white rounded shadow-sm">
+                <table class="table table-hover align-middle mb-0">
+                    <thead><tr><th>Tin đăng</th><th>Người báo cáo</th><th>Lý do / Nội dung</th><th>Ngày báo cáo</th><th>Trạng thái</th><th>Thao tác</th></tr></thead>
+                    <tbody id="reportTable"></tbody>
+                </table>
+            </div>
+        </section>
+        <section class="mt-5">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2>Báo cáo người dùng</h2>
+                <button class="btn btn-outline-primary" type="button" onclick="loadUserReports()">Làm mới</button>
+            </div>
+            <div class="table-responsive bg-white rounded shadow-sm">
+                <table class="table table-hover align-middle mb-0">
+                    <thead><tr><th>Người bị báo cáo</th><th>Người báo cáo</th><th>Lý do / Nội dung</th><th>Ngày</th><th>Trạng thái</th><th>Thao tác</th></tr></thead>
+                    <tbody id="userReportTable"></tbody>
+                </table>
+            </div>
+        </section>
+        <section class="mt-5 card shadow-sm">
+            <div class="card-body">
+                <h2 class="h4">Từ khóa cấm</h2>
+                <form id="keywordForm" class="d-flex gap-2 mb-3">
+                    <input id="keywordInput" class="form-control" maxlength="100" required placeholder="Thêm từ khóa bị cấm">
+                    <button class="btn btn-primary" type="submit">Thêm</button>
+                </form>
+                <div id="keywordList" class="d-flex flex-wrap gap-2"></div>
+            </div>
+        </section>
+        <section class="mt-5">
+            <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                <h2>Quản lý người dùng</h2>
+                <form id="userSearchForm" class="d-flex gap-2">
+                    <input id="userSearchInput" class="form-control" type="search" placeholder="Tên, email hoặc điện thoại">
+                    <button class="btn btn-outline-primary" type="submit">Tìm</button>
+                </form>
+            </div>
+            <div class="table-responsive bg-white rounded shadow-sm">
+                <table class="table table-hover align-middle mb-0">
+                    <thead><tr><th>Người dùng</th><th>Điện thoại</th><th>Tin đăng</th><th>Ngày tạo</th><th>Trạng thái</th><th>Xác minh</th><th>Thao tác</th></tr></thead>
+                    <tbody id="userTable"></tbody>
+                </table>
+            </div>
+        </section>
+        <section class="mt-5">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2>Nhật ký quản trị</h2>
+                <button class="btn btn-outline-primary" type="button" onclick="loadAdminLogs()">Làm mới</button>
+            </div>
+            <div class="table-responsive bg-white rounded shadow-sm">
+                <table class="table table-hover align-middle mb-0">
+                    <thead><tr><th>Thời gian</th><th>Quản trị viên</th><th>Thao tác</th><th>Đối tượng</th><th>Nội dung</th></tr></thead>
+                    <tbody id="adminLogTable"></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+    <script>
+        const token = localStorage.getItem('adminToken');
+        const user = JSON.parse(localStorage.getItem('adminUser') || '{}');
+        if (!token || user.tokenType !== 'admin') location.href = '/admin-login.html';
+        const authHeaders = () => ({ Authorization: 'Bearer ' + token });
+        let dashboardTrend = [];
+        const money = value => Number(value || 0).toLocaleString('vi-VN') + ' đ';
+        const escapeHtml = value => String(value ?? '').replace(/[&<>'"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[ch]));
+        const showMessage = (text, type = 'danger') => {
+            const message = document.getElementById('message');
+            message.className = 'alert alert-' + type;
+            message.textContent = text;
+        };
+        async function loadDashboard() {
+            const res = await fetch('/api/admin/dashboard', { headers: authHeaders() });
+            const data = await res.json();
+            if (res.status === 401 || res.status === 403) return location.href = '/admin-login.html';
+            if (!res.ok) throw new Error(data.message || 'Không thể tải thống kê.');
+            const metrics = [
+                ['Người dùng', data.metrics.Users],
+                ['Tổng tin đăng', data.metrics.Products],
+                ['Đang bán', data.metrics.ActiveProducts],
+                ['Chờ duyệt', data.metrics.PendingProducts],
+                ['Đang ẩn', data.metrics.HiddenProducts],
+            ];
+            document.getElementById('dashboardMetrics').innerHTML = metrics.map(([label, value]) => `
+                <div class="col-6 col-md"><div class="border rounded p-3 h-100"><div class="text-muted small">${label}</div><strong class="fs-4">${Number(value || 0).toLocaleString('vi-VN')}</strong></div></div>
+            `).join('');
+            dashboardTrend = data.trend || [];
+            drawProductTrend(dashboardTrend);
+        }
+        function drawProductTrend(points) {
+            const canvas = document.getElementById('productTrendChart');
+            const width = canvas.clientWidth || 600;
+            const height = 220;
+            const ratio = window.devicePixelRatio || 1;
+            canvas.width = width * ratio;
+            canvas.height = height * ratio;
+            canvas.style.height = height + 'px';
+            const ctx = canvas.getContext('2d');
+            ctx.scale(ratio, ratio);
+            ctx.clearRect(0, 0, width, height);
+            const pad = { left: 36, right: 12, top: 12, bottom: 36 };
+            const chartWidth = width - pad.left - pad.right;
+            const chartHeight = height - pad.top - pad.bottom;
+            const values = points.map(point => Number(point.products) || 0);
+            const max = Math.max(1, ...values);
+            ctx.font = '11px sans-serif';
+            ctx.textAlign = 'right';
+            ctx.fillStyle = '#687078';
+            for (let tick = 0; tick <= 4; tick++) {
+                const y = pad.top + chartHeight - chartHeight * tick / 4;
+                ctx.strokeStyle = '#e5e8eb';
+                ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(width - pad.right, y); ctx.stroke();
+                ctx.fillText(String(Math.round(max * tick / 4)), pad.left - 7, y + 4);
+            }
+            const slot = chartWidth / Math.max(points.length, 1);
+            const barWidth = Math.max(3, slot * 0.58);
+            points.forEach((point, index) => {
+                const value = values[index] || 0;
+                const barHeight = chartHeight * value / max;
+                const x = pad.left + index * slot + (slot - barWidth) / 2;
+                const y = pad.top + chartHeight - barHeight;
+                ctx.fillStyle = '#2864a5';
+                ctx.fillRect(x, y, barWidth, Math.max(1, barHeight));
+                if (index % 2 === 0 || index === points.length - 1) {
+                    ctx.textAlign = 'center';
+                    ctx.fillStyle = '#687078';
+                    ctx.fillText(String(point.date).slice(5), x + barWidth / 2, height - 12);
+                }
+            });
+        }
+        async function loadHomepageContent() {
+            const res = await fetch('/api/homepage-content');
+            const data = await res.json();
+            document.getElementById('heroTitle').value = data.HeroTitle || '';
+            document.getElementById('heroSubtitle').value = data.HeroSubtitle || '';
+            document.getElementById('heroDescription').value = data.HeroDescription || '';
+            document.getElementById('heroImageUrl').value = data.HeroImageUrl && !data.HeroImageUrl.startsWith('/uploads/') ? data.HeroImageUrl : '';
+        }
+        async function saveHomepageContent(event) {
+            event.preventDefault();
+            const form = new FormData(document.getElementById('homepageForm'));
+            const res = await fetch('/api/admin/homepage-content', { method: 'PUT', headers: authHeaders(), body: form });
+            const data = await res.json();
+            if (!res.ok) return showMessage(data.message || 'Không thể lưu nội dung.');
+            showMessage(data.message, 'success');
+        }
+        async function loadProducts() {
+            const res = await fetch('/api/admin/products', { headers: authHeaders() });
+            if (res.status === 401 || res.status === 403) return location.href = '/admin-login.html';
+            const products = await res.json();
+            document.getElementById('productTable').innerHTML = products.map(p => `
+                <tr><td><input class="form-check-input product-select" type="checkbox" value="${Number(p.MaSanPham)}" aria-label="Chọn ${escapeHtml(p.TenSanPham)}" onchange="updateSelectedCount()"></td>
+                <td><b>${escapeHtml(p.TenSanPham)}</b><br><small>${escapeHtml(p.TenDanhMuc)}</small>${p.LyDoTuChoi ? `<br><small class="text-danger">Lý do từ chối: ${escapeHtml(p.LyDoTuChoi)}</small>` : ''}</td>
+                <td>${escapeHtml(p.TenNguoiBan)}<br><small>${escapeHtml(p.EmailNguoiBan)}</small></td>
+                <td>${money(p.GiaBan)}</td><td>${p.NgayDang ? new Date(p.NgayDang).toLocaleDateString('vi-VN') : ''}</td>
+                <td><select class="form-select form-select-sm" data-previous="${escapeHtml(p.TrangThai)}" onchange="changeStatus(${p.MaSanPham}, this)">
+                    ${['Chờ duyệt', 'Đang bán', 'Từ chối', 'Đã bán', 'Ẩn'].map(s => `<option ${s === p.TrangThai ? 'selected' : ''}>${s}</option>`).join('')}
+                </select></td></tr>`).join('');
+            const selectAll = document.getElementById('selectAllProducts');
+            selectAll.checked = false;
+            selectAll.indeterminate = false;
+            selectAll.onchange = () => {
+                document.querySelectorAll('.product-select').forEach(input => { input.checked = selectAll.checked; });
+                updateSelectedCount();
+            };
+            updateSelectedCount();
+        }
+        function updateSelectedCount() {
+            const checks = [...document.querySelectorAll('.product-select')];
+            const selected = checks.filter(input => input.checked).length;
+            document.getElementById('selectedProductCount').textContent = `Đã chọn ${selected} tin`;
+            const selectAll = document.getElementById('selectAllProducts');
+            selectAll.checked = checks.length > 0 && selected === checks.length;
+            selectAll.indeterminate = selected > 0 && selected < checks.length;
+        }
+        async function bulkModerate(action) {
+            const ids = [...document.querySelectorAll('.product-select:checked')].map(input => Number(input.value));
+            if (!ids.length) return showMessage('Vui lòng chọn ít nhất một tin đăng.');
+            if (action === 'delete' && !confirm(`Bạn có chắc muốn xóa ${ids.length} tin đã chọn? Tin có đánh giá sẽ không thể xóa.`)) return;
+            const res = await fetch('/api/admin/products/bulk', {
+                method: 'POST',
+                headers: { ...authHeaders(), 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ids, action })
+            });
+            const data = await res.json();
+            if (!res.ok) return showMessage(data.message || 'Không thể kiểm duyệt các tin đã chọn.');
+            showMessage(data.message, 'success');
+            await Promise.all([loadProducts(), loadAdminLogs()]);
+        }
+        async function changeStatus(id, select) {
+            const trangThai = select.value;
+            let lyDoTuChoi = '';
+            if (trangThai === 'Từ chối') {
+                const enteredReason = prompt('Nhập lý do từ chối để người đăng biết cần chỉnh sửa:');
+                if (enteredReason === null) {
+                    select.value = select.dataset.previous || 'Chờ duyệt';
+                    return;
+                }
+                lyDoTuChoi = enteredReason.trim();
+                if (!lyDoTuChoi) {
+                    select.value = select.dataset.previous || 'Chờ duyệt';
+                    return showMessage('Cần nhập lý do trước khi từ chối tin đăng.');
+                }
+            }
+            const res = await fetch('/api/admin/products/' + id + '/status', {
+                method: 'PATCH', headers: { ...authHeaders(), 'Content-Type': 'application/json' }, body: JSON.stringify({ trangThai, lyDoTuChoi })
+            });
+            if (!res.ok) {
+                select.value = select.dataset.previous || 'Chờ duyệt';
+                return showMessage((await res.json()).message || 'Không thể cập nhật trạng thái.');
+            }
+            select.dataset.previous = trangThai;
+            loadProducts();
+        }
+        async function loadReports() {
+            const res = await fetch('/api/admin/reports', { headers: authHeaders() });
+            if (res.status === 401 || res.status === 403) return location.href = '/admin-login.html';
+            const reports = await res.json();
+            if (!res.ok) throw new Error(reports.message || 'Không thể tải báo cáo.');
+            document.getElementById('reportTable').innerHTML = reports.length ? reports.map(report => `
+                <tr><td><a target="_blank" rel="noopener" href="/product-detail.html?id=${encodeURIComponent(report.MaSanPham)}">${escapeHtml(report.TenSanPham)}</a><br><small>${escapeHtml(report.TrangThaiSanPham)}</small></td>
+                <td>${escapeHtml(report.TenNguoiBao)}<br><small>${escapeHtml(report.EmailNguoiBao)}</small></td>
+                <td><strong>${escapeHtml(report.LoaiViPham)}</strong>${report.ChiTiet ? `<br>${escapeHtml(report.ChiTiet)}` : ''}</td>
+                <td>${report.NgayBaoCao ? new Date(report.NgayBaoCao).toLocaleString('vi-VN') : ''}</td>
+                <td>${escapeHtml(report.TrangThai)}</td>
+                <td>${report.TrangThai === 'Chờ xử lý' ? `<div class="d-flex gap-1"><button class="btn btn-sm btn-danger" onclick="resolveReport(${report.MaBaoCao}, true)">Ẩn tin & xử lý</button><button class="btn btn-sm btn-outline-secondary" onclick="resolveReport(${report.MaBaoCao}, false)">Bỏ qua</button></div>` : '—'}</td></tr>`).join('') : '<tr><td colspan="6" class="text-center text-muted py-4">Chưa có báo cáo.</td></tr>';
+        }
+        async function resolveReport(id, hideProduct) {
+            const trangThai = hideProduct ? 'Đã xử lý' : 'Bỏ qua';
+            const res = await fetch('/api/admin/reports/' + id, {
+                method: 'PATCH', headers: { ...authHeaders(), 'Content-Type': 'application/json' },
+                body: JSON.stringify({ trangThai, anTin: hideProduct })
+            });
+            const data = await res.json();
+            if (!res.ok) return showMessage(data.message || 'Không thể cập nhật báo cáo.');
+            showMessage(data.message, 'success');
+            await Promise.all([loadReports(), loadProducts()]);
+        }
+        async function loadUserReports() {
+            const res = await fetch('/api/admin/user-reports', { headers: authHeaders() });
+            const reports = await res.json();
+            if (!res.ok) throw new Error(reports.message || 'Không thể tải báo cáo người dùng.');
+            document.getElementById('userReportTable').innerHTML = reports.length ? reports.map(report => `
+                <tr><td>${escapeHtml(report.TenNguoiBiBaoCao)} #${Number(report.MaNguoiBiBaoCao)}</td>
+                <td>${escapeHtml(report.TenNguoiBaoCao)}<br><small>${escapeHtml(report.EmailNguoiBaoCao)}</small></td>
+                <td><strong>${escapeHtml(report.LyDo)}</strong>${report.ChiTiet ? `<br>${escapeHtml(report.ChiTiet)}` : ''}</td>
+                <td>${report.NgayBaoCao ? new Date(report.NgayBaoCao).toLocaleString('vi-VN') : ''}</td>
+                <td>${escapeHtml(report.TrangThai)}</td>
+                <td>${report.TrangThai === 'Chờ xử lý' ? `<button class="btn btn-sm btn-success me-1" onclick="resolveUserReport(${Number(report.MaBaoCao)}, 'Đã xử lý')">Đã xử lý</button><button class="btn btn-sm btn-outline-secondary" onclick="resolveUserReport(${Number(report.MaBaoCao)}, 'Bỏ qua')">Bỏ qua</button>` : '—'}</td></tr>`).join('') :
+                '<tr><td colspan="6" class="text-center text-muted py-4">Chưa có báo cáo người dùng.</td></tr>';
+        }
+        async function resolveUserReport(id, status) {
+            const res = await fetch('/api/admin/user-reports/' + id, {
+                method: 'PATCH', headers: { ...authHeaders(), 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status })
+            });
+            const data = await res.json();
+            if (!res.ok) return showMessage(data.message || 'Không thể cập nhật báo cáo.');
+            showMessage(data.message, 'success');
+            await loadUserReports();
+        }
+        async function loadKeywords() {
+            const res = await fetch('/api/admin/prohibited-keywords', { headers: authHeaders() });
+            const keywords = await res.json();
+            if (!res.ok) throw new Error(keywords.message || 'Không thể tải danh sách từ khóa cấm.');
+            document.getElementById('keywordList').innerHTML = keywords.map(item => `
+                <span class="badge text-bg-secondary d-inline-flex align-items-center gap-2">${escapeHtml(item.TuKhoa)}
+                    <button class="btn-close btn-close-white" aria-label="Xóa ${escapeHtml(item.TuKhoa)}" onclick="removeKeyword(${Number(item.MaTuKhoa)})"></button>
+                </span>`).join('') || '<span class="text-muted small">Chưa có từ khóa cấm.</span>';
+        }
+        async function addKeyword(event) {
+            event.preventDefault();
+            const keyword = document.getElementById('keywordInput').value.trim();
+            const res = await fetch('/api/admin/prohibited-keywords', {
+                method: 'POST', headers: { ...authHeaders(), 'Content-Type': 'application/json' },
+                body: JSON.stringify({ keyword })
+            });
+            const data = await res.json();
+            if (!res.ok) return showMessage(data.message || 'Không thể thêm từ khóa.');
+            document.getElementById('keywordForm').reset();
+            showMessage(data.message, 'success');
+            await loadKeywords();
+        }
+        async function removeKeyword(id) {
+            const res = await fetch('/api/admin/prohibited-keywords/' + id, { method: 'DELETE', headers: authHeaders() });
+            const data = await res.json();
+            if (!res.ok) return showMessage(data.message || 'Không thể xóa từ khóa.');
+            await loadKeywords();
+        }
+        async function loadAdminUsers(keyword = '') {
+            const res = await fetch('/api/admin/users?' + new URLSearchParams({ q: keyword }), { headers: authHeaders() });
+            if (res.status === 401 || res.status === 403) return location.href = '/admin-login.html';
+            const users = await res.json();
+            if (!res.ok) throw new Error(users.message || 'Không thể tải người dùng.');
+            document.getElementById('userTable').innerHTML = users.length ? users.map(u => {
+                const active = u.TrangThai === true || u.TrangThai === 1;
+                return `<tr>
+                    <td><strong>${escapeHtml(u.HoTen)}</strong><br><small>${escapeHtml(u.Email)}</small></td>
+                    <td>${escapeHtml(u.SoDienThoai)}</td><td>${Number(u.SoTin || 0)}</td>
+                    <td>${u.NgayTao ? new Date(u.NgayTao).toLocaleDateString('vi-VN') : ''}</td>
+                    <td><span class="badge ${active ? 'text-bg-success' : 'text-bg-secondary'}">${active ? 'Hoạt động' : 'Đã khóa'}</span></td>
+                    <td><button class="btn btn-sm ${u.DaXacMinh ? 'btn-primary' : 'btn-outline-primary'}" type="button"
+                        onclick="setUserVerified(${Number(u.MaNguoiDung)}, ${!u.DaXacMinh})">${u.DaXacMinh ? 'Đã xác minh' : 'Xác minh'}</button></td>
+                    <td><button class="btn btn-sm ${active ? 'btn-outline-danger' : 'btn-outline-success'}" type="button"
+                        onclick="setAdminUserStatus(${Number(u.MaNguoiDung)}, ${!active})">${active ? 'Khóa' : 'Mở khóa'}</button></td>
+                </tr>`;
+            }).join('') : '<tr><td colspan="7" class="text-center text-muted py-4">Không tìm thấy người dùng.</td></tr>';
+        }
+        async function setUserVerified(id, verified) {
+            const res = await fetch('/api/admin/users/' + id + '/verified', {
+                method: 'PATCH', headers: { ...authHeaders(), 'Content-Type': 'application/json' },
+                body: JSON.stringify({ verified })
+            });
+            const data = await res.json();
+            if (!res.ok) return showMessage(data.message || 'Không thể đổi trạng thái xác minh.');
+            showMessage(data.message, 'success');
+            await loadAdminUsers(document.getElementById('userSearchInput').value.trim());
+        }
+        async function setAdminUserStatus(id, active) {
+            const res = await fetch('/api/admin/users/' + id + '/status', {
+                method: 'PATCH',
+                headers: { ...authHeaders(), 'Content-Type': 'application/json' },
+                body: JSON.stringify({ active })
+            });
+            const data = await res.json();
+            if (!res.ok) return showMessage(data.message || 'Không thể cập nhật người dùng.');
+            showMessage(data.message, 'success');
+            await Promise.all([loadAdminUsers(document.getElementById('userSearchInput').value.trim()), loadAdminLogs()]);
+        }
+        async function loadAdminLogs() {
+            const res = await fetch('/api/admin/logs', { headers: authHeaders() });
+            if (res.status === 401 || res.status === 403) return location.href = '/admin-login.html';
+            const logs = await res.json();
+            if (!res.ok) throw new Error(logs.message || 'Không thể tải nhật ký quản trị.');
+            document.getElementById('adminLogTable').innerHTML = logs.length ? logs.map(log => `
+                <tr><td>${log.NgayTao ? new Date(log.NgayTao).toLocaleString('vi-VN') : ''}</td>
+                <td>${escapeHtml(log.AdminEmail)}</td><td>${escapeHtml(log.HanhDong)}</td>
+                <td>${escapeHtml(log.DoiTuong)}${log.MaDoiTuong ? ` #${Number(log.MaDoiTuong)}` : ''}</td>
+                <td>${escapeHtml(log.NoiDung || '—')}</td></tr>`).join('') :
+                '<tr><td colspan="5" class="text-center text-muted py-4">Chưa có nhật ký.</td></tr>';
+        }
+        function logout() { localStorage.removeItem('adminToken'); localStorage.removeItem('adminUser'); location.href = '/admin-login.html'; }
+        document.getElementById('homepageForm').addEventListener('submit', saveHomepageContent);
+        document.getElementById('keywordForm').addEventListener('submit', addKeyword);
+        document.getElementById('userSearchForm').addEventListener('submit', event => {
+            event.preventDefault();
+            loadAdminUsers(document.getElementById('userSearchInput').value.trim())
+                .catch(error => showMessage(error.message));
+        });
+        Promise.all([loadHomepageContent(), loadDashboard(), loadProducts(), loadReports(), loadUserReports(), loadKeywords(), loadAdminUsers(), loadAdminLogs()])
+            .catch(error => showMessage(error.message || 'Không thể tải dữ liệu quản trị.'));
+        window.addEventListener('resize', () => drawProductTrend(dashboardTrend));
+    </script>
+<script src="/js/site-config.js"></script>
+    <script src="/js/footer.js"></script>
+</body>
+</html>

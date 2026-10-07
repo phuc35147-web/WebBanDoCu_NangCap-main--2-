@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Thông báo - Chợ Đồ Cũ</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="bg-light">
+<main class="container py-4" style="max-width: 760px">
+    <a href="/" class="text-decoration-none"><i class="bi bi-arrow-left me-1"></i>Về trang chủ</a>
+    <h1 class="h4 fw-bold my-3"><i class="bi bi-bell-fill me-2"></i>Thông báo</h1>
+    <div id="list" class="list-group shadow-sm"><div class="list-group-item text-center text-muted py-4">Đang tải...</div></div>
+</main>
+<script>
+const token = localStorage.getItem('token');
+if (!token) location.href = '/auth.html?mode=login';
+const esc = v => String(v ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+(async function () {
+    const box = document.getElementById('list');
+    const headers = { Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' };
+    try {
+        const r = await fetch('/api/notifications', { headers });
+        const d = await r.json();
+        if (r.status === 401 || r.status === 403) { location.href = '/auth.html?mode=login'; return; }
+        if (!r.ok) throw new Error(d.message || 'Không tải được thông báo.');
+        box.innerHTML = d.items.length ? d.items.map(n => `
+            <div class="list-group-item ${n.DaDoc ? '' : 'bg-light border-start border-primary border-3'}">
+                <div class="d-flex justify-content-between"><strong>${esc(n.TieuDe)}</strong><small class="text-muted">${new Date(n.NgayTao).toLocaleString('vi-VN')}</small></div>
+                <div class="small">${esc(n.NoiDung)}</div>
+            </div>`).join('') : '<div class="list-group-item text-center text-muted py-4">Bạn chưa có thông báo nào.</div>';
+        if (d.unread) fetch('/api/notifications/read', { method: 'PATCH', headers, body: '{}' });
+    } catch (e) { box.innerHTML = '<div class="list-group-item text-danger">' + esc(e.message) + '</div>'; }
+})();
+</script>
+<script src="/js/site-config.js"></script>
+    <script src="/js/footer.js"></script>
+</body>
+</html>

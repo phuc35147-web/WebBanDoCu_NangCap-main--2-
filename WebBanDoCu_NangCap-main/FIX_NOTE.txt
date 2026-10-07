@@ -1,0 +1,13 @@
+BẢN FIX ĐĂNG TIN
+
+Đã sửa lỗi SQL Server:
+The target table 'SanPhamDoCu' ... cannot have any enabled triggers if the statement contains an OUTPUT clause without INTO clause.
+
+Nguyên nhân: câu INSERT/UPDATE sản phẩm dùng OUTPUT INSERTED.* trực tiếp trong khi bảng SanPhamDoCu có trigger.
+
+Đã đổi sang:
+- INSERT rồi SELECT lại bằng SCOPE_IDENTITY().
+- UPDATE rồi SELECT lại theo MaSanPham.
+
+Không cần xóa trigger và vẫn giữ luồng:
+Tài khoản đăng tin -> Chờ duyệt -> Admin duyệt -> Đang bán.

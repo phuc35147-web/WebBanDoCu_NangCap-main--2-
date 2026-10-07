@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Tin nhắn - Chợ Đồ Cũ</title>
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/messages.css">
+</head>
+
+<body data-no-footer>
+
+<header class="main-header messages-header">
+
+    <div class="container-fluid messages-topbar">
+
+        <a href="/" class="messages-logo">
+            <span class="logo-icon">
+                <i class="bi bi-recycle"></i>
+            </span>
+
+            <span>CHỢ ĐỒ CŨ</span>
+        </a>
+
+        <div class="messages-top-actions">
+
+            <a href="/" class="top-link">
+                <i class="bi bi-house"></i>
+                Trang chủ
+            </a>
+
+            <a href="/account.html" class="top-link">
+                <i class="bi bi-person-circle"></i>
+                Tài khoản
+            </a>
+
+            <a href="/product-detail.html" class="post-button">
+                <i class="bi bi-plus-lg"></i>
+                Đăng tin
+            </a>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<main class="messages-page">
+
+    <div class="messages-title">
+        <h1>Tin nhắn</h1>
+    </div>
+
+
+    <div class="messages-shell" id="messagesShell">
+
+        <!-- =================================================
+             BÊN TRÁI - DANH SÁCH CUỘC TRÒ CHUYỆN
+        ================================================== -->
+
+        <aside class="conversation-list">
+
+            <div class="conversation-head">
+
+                <div class="conversation-heading">
+
+                    <strong>Chat</strong>
+
+                    <span id="conversationCount"
+                          class="conversation-count">
+                        0
+                    </span>
+
+                </div>
+
+
+                <div class="conversation-search">
+
+                    <i class="bi bi-search"></i>
+
+                    <input
+                        id="conversationSearch"
+                        type="search"
+                        placeholder="Tìm theo tên hoặc sản phẩm"
+                        autocomplete="off">
+
+                    <button id="clearConversationSearch" type="button" title="Xóa tìm kiếm" hidden>
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+
+                </div>
+
+
+                <div class="conversation-tabs">
+
+                    <button
+                        type="button"
+                        class="conversation-tab active"
+                        data-filter="all">
+
+                        Tất cả
+
+                    </button>
+
+                    <button
+                        type="button"
+                        class="conversation-tab"
+                        data-filter="unread">
+
+                        Chưa đọc
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- CHỈ KHU VỰC NÀY CUỘN -->
+
+            <div id="conversationList">
+
+                <div class="conversation-loading">
+
+                    <div class="spinner-border spinner-border-sm"></div>
+
+                    <span>Đang tải cuộc trò chuyện...</span>
+
+                </div>
+
+            </div>
+
+        </aside>
+
+
+        <!-- =================================================
+             BÊN PHẢI - KHUNG CHAT
+        ================================================== -->
+
+        <section class="chat-window">
+
+
+            <!-- HEADER CHAT -->
+
+            <div
+                id="chatHead"
+                class="chat-window-head">
+
+                <div class="empty-chat-head">
+
+                    <div class="empty-chat-icon">
+                        <i class="bi bi-chat-dots"></i>
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Chọn một cuộc trò chuyện
+                        </strong>
+
+                        <div class="realtime-status">
+
+                            <span
+                                id="realtimeDot"
+                                class="realtime-dot offline">
+                            </span>
+
+                            <span id="realtimeText">
+                                Đang kết nối...
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 LỊCH SỬ CHAT
+                 CHỈ KHU VỰC NÀY CUỘN
+            ================================================== -->
+
+            <button id="scrollBottomButton" type="button" class="scroll-bottom-button" title="Xuống tin mới nhất"><i class="bi bi-arrow-down"></i></button>
+            <div
+                id="messagesBody"
+                class="messages-body">
+
+                <div class="empty-chat">
+
+                    <div class="empty-chat-large-icon">
+
+                        <i class="bi bi-chat-square-text"></i>
+
+                    </div>
+
+                    <h3>
+                        Tin nhắn của bạn
+                    </h3>
+
+                    <p>
+                        Chọn một cuộc trò chuyện bên trái
+                        để bắt đầu trao đổi.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 GỢI Ý TIN NHẮN
+            ================================================== -->
+
+            <div
+                id="quickReplies"
+                class="quick-replies d-none">
+
+                <button type="button" class="quick-reply" data-message="Sản phẩm còn không ạ?">Sản phẩm còn không ạ?</button>
+
+                <button type="button" class="quick-reply" data-message="Cho mình thêm thông tin?">Cho mình thêm thông tin?</button>
+
+                <button type="button" class="quick-reply" data-message="Còn thương lượng không?">Còn thương lượng không?</button>
+
+                <button type="button" class="quick-reply" data-message="Mình muốn xem sản phẩm">Mình muốn xem sản phẩm</button>
+
+            </div>
+
+
+            <!-- =================================================
+                 Ô NHẬP TIN NHẮN
+            ================================================== -->
+
+            <form
+                id="messageForm"
+                class="message-compose d-none">
+
+                <input id="chatImageInput" type="file" accept="image/jpeg,image/png,image/webp" hidden>
+                <button
+                    id="chatImageButton"
+                    type="button"
+                    class="compose-icon"
+                    title="Gửi ảnh">
+
+                    <i class="bi bi-image"></i>
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="compose-icon" disabled
+                    title="Gửi vị trí (sắp có)">
+
+                    <i class="bi bi-geo-alt"></i>
+
+                </button>
+
+
+                <input
+                    id="messageInput"
+                    type="text"
+                    maxlength="2000"
+                    autocomplete="off"
+                    placeholder="Nhập tin nhắn...">
+
+
+                <button
+                    id="sendButton"
+                    type="submit"
+                    class="send-button"
+                    title="Gửi">
+
+                    <i class="bi bi-send-fill"></i>
+
+                </button>
+
+            </form>
+
+        </section>
+
+    </div>
+
+</main>
+
+
+<script src="/js/chat-render.js"></script>
+    <script src="/js/messages.js"></script>
+
+<script src="/js/site-config.js"></script>
+    <script src="/js/footer.js"></script>
+</body>
+</html>

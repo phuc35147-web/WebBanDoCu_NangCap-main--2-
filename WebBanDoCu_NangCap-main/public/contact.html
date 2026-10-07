@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Liên hệ & báo cáo vi phạm - Chợ Đồ Cũ</title>
+    <meta name="description" content="Thông tin liên hệ, hỗ trợ và hướng dẫn báo cáo vi phạm bản quyền tại Chợ Đồ Cũ.">
+    <meta property="og:title" content="Liên hệ & báo cáo vi phạm - Chợ Đồ Cũ">
+    <meta property="og:description" content="Thông tin liên hệ, hỗ trợ và hướng dẫn báo cáo vi phạm bản quyền tại Chợ Đồ Cũ.">
+    <meta property="og:type" content="website">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%9B%8D%3C/text%3E%3C/svg%3E">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/site-config.js"></script>
+</head>
+<body>
+<nav class="navbar bg-white border-bottom"><div class="container"><a class="navbar-brand fw-bold" href="/"><i class="bi bi-arrow-left me-2"></i>Chợ Đồ Cũ</a></div></nav>
+<main class="legal-page">
+<h1>Liên hệ & báo cáo vi phạm</h1>
+<p class="text-muted">Cập nhật lần cuối: <span data-site-text="updatedAt"></span></p>
+<div class="legal-note"><strong>Lưu ý cho chủ website:</strong> đây là bản mẫu được soạn theo mô hình sàn đăng tin trung gian. Hãy điền thông tin thật trong <code>public/js/site-config.js</code> và nhờ luật sư rà soát trước khi mở công khai. Xóa khung này khi đã hoàn tất.</div>
+
+<h2>Thông tin liên hệ</h2>
+<ul class="list-unstyled" id="contactList"></ul>
+<h2>Báo cáo tin đăng vi phạm</h2>
+<p>Mở tin đăng cần báo cáo và dùng nút <strong>Báo cáo</strong>, chọn lý do phù hợp (hàng giả, lừa đảo, thông tin sai sự thật, vi phạm bản quyền...).</p>
+<h2>Yêu cầu gỡ nội dung vi phạm bản quyền</h2>
+<p>Nếu ảnh hoặc nội dung của bạn bị sử dụng trái phép, hãy gửi email tới địa chỉ hỗ trợ ở trên với các thông tin sau:</p>
+<ol>
+<li>Họ tên, thông tin liên hệ của chủ sở hữu hoặc người đại diện.</li>
+<li>Đường dẫn (URL) tin đăng bị cho là vi phạm.</li>
+<li>Mô tả nội dung thuộc quyền của bạn và bằng chứng sở hữu (ảnh gốc, liên kết bài viết gốc...).</li>
+<li>Cam đoan thông tin cung cấp là chính xác.</li>
+</ol>
+<p>Chúng tôi sẽ xem xét, gỡ nội dung nếu xác định vi phạm và thông báo cho người đăng. Người đăng có quyền phản hồi nếu cho rằng việc gỡ là nhầm lẫn.</p>
+<h2>Yêu cầu về dữ liệu cá nhân</h2>
+<p>Để truy cập, chỉnh sửa hoặc xóa dữ liệu cá nhân, hãy gửi email từ địa chỉ email đã đăng ký tài khoản, nêu rõ yêu cầu.</p>
+<script>
+(function(){const c=window.SITE_CONFIG||{};const ul=document.getElementById('contactList');const rows=[];
+if(c.email)rows.push('<li><i class="bi bi-envelope me-2"></i><a href="mailto:'+c.email+'">'+c.email+'</a></li>');
+if(c.hotline)rows.push('<li><i class="bi bi-telephone me-2"></i>'+c.hotline+'</li>');
+if(c.address)rows.push('<li><i class="bi bi-geo-alt me-2"></i>'+c.address+'</li>');
+ul.innerHTML=rows.join('')||'<li class="text-muted">Chủ website chưa cập nhật thông tin liên hệ (public/js/site-config.js).</li>';})();
+</script>
+
+</main>
+<script src="/js/site-config.js"></script>
+<script src="/js/footer.js"></script>
+</body>
+</html>

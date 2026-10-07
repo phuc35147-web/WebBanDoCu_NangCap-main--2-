@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tin đã lưu - Chợ Đồ Cũ</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="bg-light">
+<main class="container py-4">
+    <a href="/" class="text-decoration-none"><i class="bi bi-arrow-left me-1"></i>Về trang chủ</a>
+    <h1 class="h4 fw-bold my-3"><i class="bi bi-heart-fill text-danger me-2"></i>Tin đã lưu</h1>
+    <div id="list" class="row"><div class="col-12 text-center text-muted py-5">Đang tải...</div></div>
+</main>
+<script>
+const token = localStorage.getItem('token');
+if (!token) location.href = '/auth.html?mode=login';
+const esc = v => String(v ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+async function load() {
+    const box = document.getElementById('list');
+    try {
+        const r = await fetch('/api/favorites', { headers: { Authorization: 'Bearer ' + token } });
+        const items = await r.json();
+        if (r.status === 401 || r.status === 403) { location.href = '/auth.html?mode=login'; return; }
+        if (!r.ok) throw new Error(items.message || 'Không tải được danh sách.');
+        if (!items.length) { box.innerHTML = '<div class="col-12 text-center text-muted py-5">Bạn chưa lưu tin nào.</div>'; return; }
+        box.innerHTML = items.map(p => `
+            <div class="col-6 col-md-3 mb-4">
+                <div class="card product-card h-100 shadow-sm">
+                    <a href="/product-detail.html?id=${encodeURIComponent(p.MaSanPham)}" class="text-decoration-none text-dark">
+                        <img src="${esc(p.HinhAnh || '/uploads/default.jpg')}" class="card-img-top product-img" alt="${esc(p.TenSanPham)}" onerror="this.src='/uploads/default.jpg'">
+                        <div class="card-body pb-2">
+                            <span class="badge badge-condition mb-2">${esc(p.TenDanhMuc)}</span>${p.TrangThai === 'Đã bán' ? ' <span class="badge bg-secondary mb-2">Đã bán</span>' : ''}
+                            <h6 class="card-title text-truncate fw-bold">${esc(p.TenSanPham)}</h6>
+                            <p class="mb-1 text-danger fw-bold">${Number(p.GiaBan).toLocaleString('vi-VN')} đ</p>
+                            <small class="text-muted"><i class="bi bi-person me-1"></i>${esc(p.TenNguoiBan || 'Người bán')}</small>
+                        </div>
+                    </a>
+                    <div class="px-3 pb-3"><button class="btn btn-sm btn-outline-danger w-100" onclick="unsave(${Number(p.MaSanPham)})"><i class="bi bi-heart-break me-1"></i>Bỏ lưu</button></div>
+                </div>
+            </div>`).join('');
+    } catch (e) { box.innerHTML = '<div class="col-12 text-center text-danger py-5">' + esc(e.message) + '</div>'; }
+}
+async function unsave(id) {
+    try {
+        const r = await fetch('/api/favorites/' + id, { method: 'DELETE', headers: { Authorization: 'Bearer ' + token } });
+        if (!r.ok) throw new Error((await r.json()).message || 'Không thể bỏ lưu.');
+        load();
+    } catch (e) { alert(e.message); }
+}
+load();
+</script>
+<script src="/js/site-config.js"></script>
+    <script src="/js/footer.js"></script>
+</body>
+</html>
